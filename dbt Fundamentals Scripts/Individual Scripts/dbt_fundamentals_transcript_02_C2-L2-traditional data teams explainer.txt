@@ -1,0 +1,11 @@
+C2-L2-traditional data teams explainer
+
+Hi everyone. So we're talking about who is an analytics engineer? Where did this role come from, why is it necessary for data teams. We are going to go on a little bit of a journey starting with traditional data teams, then talking about ETL and ELT, and then we'll circle back to where analytics engineering fits in to the whole data team structure.
+
+So let's first start with traditional data teams. Traditional data teams have typically two roles, data analysts, and data engineers. The data engineers are in charge of building the infrastructure that the data is hosted on, usually databases. And then also for managing the ETL process extract, transform load for making sure the data is where it needs to be and in tables so that the analysts can then query it.
+
+The skill set for a typical data engineer includes SQL for sure. But also includes, Python, Java, other functional programming languages. To orchestrate the production of that data so that the analysts have it to just to work with. The data analysts on the other hand, tends to work a little bit closer to the business decision makers in finance, marketing, and other departments.
+
+And they typically query the tables that the data engineer has built to serve up dashboards or different types of reports. And so analysts their skill set usually involves a lot of Excel and then also, quite a bit of SQL to query those underlying tables. So when we think about these two roles at an organization. There's essentially this gap between the two of them, the data analysts on one hand knows what needs to be built so that business decision makers can make those decisions.
+
+And then the data engineer has the skills to build that, put that in production, have those tables refresh at some cadence because of this gap between the two, there's an opportunity for teams to work a little bit more efficiently. It wasn't until the recent advent of some technology, that we'll learn about in a moment that makes this possible for us to rethink what a data team could be.

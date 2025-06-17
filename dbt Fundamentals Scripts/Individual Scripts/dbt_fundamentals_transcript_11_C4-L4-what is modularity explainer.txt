@@ -1,0 +1,35 @@
+C4-L4-what is modularity explainer
+
+Just built our first model called dim customers.
+
+Let's revisit the query that we used to build that.
+
+We had multiple CTEs. Let's go through each of them.
+
+First CTE, took our underlying customer's data and we reshaped it into what we want it to look like. Did the same thing for orders where we reshaped orders.
+
+Then in the third CTE, customer orders, we aggregated things, based on the business logic that we decided on. And then finally, we performed a join where we joined that data together with customers to create our final data artifact. This works, and it serves our needs. But we're gonna pause there and think about something a little more tangible and then revisit how we might do that differently.
+
+Let's say we're building a car. One way to build a car would be to get a bunch of metal in a room, get a bunch of plastic in a room, get a bunch of wiring in a room, and then take all those pieces and bend them, meld them on the fly to build that final, vehicle.
+
+We know that's not how cars are built. Cars are built by building the individual parts first and then assembling all these into the final product.
+
+We can call this modular thinking or modularity, and we can do the same thing in analytics.
+
+So let's rethink that query we looked at a moment ago. We saw we were doing a lot of things in this query.
+
+Instead of doing this all in one model, we're gonna break this into three separate models.
+
+So our first model, we're gonna call stage customers.
+
+And what stage customers' sole responsibility to do is to take that underlying data and shape it into what we want it to look like so we can use it in any downstream models.
+
+So that's stage customers.
+
+We'll similarly stage orders and call that a model of stage orders, and that's where we'll shape orders into what we want it to look like. So that's two of the three models. The third and final model is we're gonna refactor dim customers to select from those two models that we just built, so that we can build that final dim customers data artifact that our BI tool can use.
+
+So what this allows us to do is we're assembling that final model using different parts. We have stage customers, we have stage orders, and we're building that, shaping that over multiple steps into that final data artifact.
+
+What this also allows us to do is we can reuse stage customers and we can reuse stage orders in other models. So we're not repeating that logic in another really long select statement, long SQL query.
+
+So what this allows us to do, thinking like this, it allows us to modularize how we build data products much like other engineers and other fields will build machinery, build hardware, or build applications. We can do that in analytics by thinking like this.

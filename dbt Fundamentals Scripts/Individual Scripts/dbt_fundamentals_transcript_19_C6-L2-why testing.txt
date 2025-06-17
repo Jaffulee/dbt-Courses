@@ -1,0 +1,43 @@
+C6-L2-why testing
+
+Alright.
+
+It's eight AM. I've got my coffee, got my water. I'm very excited to start the week working in data. Got my cool insulated mug. I am ready to go.
+
+Oh. And the head of sales just sent me a message about a dashboard being broken.
+
+Looks like there's some missing data. I'm gonna dig in here.
+
+Okay.
+
+Oh. Oh, dang. It looks like there's a missing payment method. I gotta fix this. Okay.
+
+Let's get into it. Alright. I'm gonna look in here and in there.
+
+Cool. I'm
+
+gonna fix it up.
+
+Okay. Alright. My dashboard is all fixed and working, and the head of sales is good to go. Everything's set.
+
+But now it's noon. Where did my morning go?
+
+Let's rewind a little bit. When I first built this dashboard, I made sure that all the transformations were working. I used my own select star queries to make sure that the data matched my own assertions.
+
+This has worked for four weeks. There were no issues.
+
+And then suddenly this morning, it broke.
+
+This is really frustrating. I
+
+just lost four hours of time. I was so excited to start working on some other projects.
+
+So this is where dbt is really helpful.
+
+dbt allows you to quickly and easily scale data tests across your project and your analytics workflow so that you have coverage and then you can find when things break before anyone else does.
+
+In development, you can use these data tests to make sure that as you're coding and writing SQL, it produces
+
+exactly what you want. And in production, you can set it up to alert you when a data test fails so that you can be the first person to figure out when something didn't go quite as planned, then you can fix it. Whatever dashboard might be broken, it can be fixed before anyone else would even notice.
+
+Data tests let you level up your analytics engineering workflow, particularly by giving you coverage so that you can trust your code and then everyone else can trust your data. Let's get into it.

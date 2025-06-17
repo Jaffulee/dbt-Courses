@@ -1,0 +1,17 @@
+C2-L4-analytics engineer explainer
+
+So let's revisit the data team. Previously, we covered that the traditional data team is made up of data analysts and data engineers. And what really drove this process was the ETL framework. that data engineers owned of extracting the data, transforming the data and loading the data.
+
+Data warehouses enable this new process of E L T extract the data, load the data, and then transform from there. And so with this changes is that we have this new role emerging known as analytics engineer. And we'll just talk about first the analytics engineer, and then we'll see how that impacts the analyst and the engineer, the data engineer as well on the team. So the analytics engineer is solely focused on taking that raw data and transforming it into transformed data so that the analysts can take it from there and serve whatever needs the business has.
+
+They're really in charge of the T and ELT. This then frees up the data engineer to focus on the extracting from sources and then loading into the data warehouse or the EL in ELT. They can also focus on more macro level things, maintaining infrastructure and things like that. Then for the analyst, they can work more closely with the analytics engineer to deliver these final tables that can then be queried with a BI tool, in a much faster way so that they can get what they need when they need it and get those to the right people to make the right decisions.
+
+And so ultimately, the team is composed of data engineer, analytics engineer, and then a data analyst and maybe different numbers in each of these roles. I would love to share with you a quick snippet of an article that my colleague Claire wrote. I'm going to show that on the screen in a moment, highly recommend you check this out. I'll link it below.
+
+It's a great read. And so take a moment to just pause the video and just read the three columns here and kind of soak in what each of these different roles do and how they might work together. Great! So thanks for, thanks for taking a look at that.
+
+Important disclaimer here is that these roles are the lines between these roles are really blurry. The people don't need to be siloed into these specific job descriptions. And in fact, if you're a brand new data team, you might be a data team of one, you might be owning all three of these roles and there's tools to do that. These days, your data warehouse in the cloud, there's off the shelf tools for extracting and loading there's tools for transforming.
+
+There's plenty of tools for visualizing that data. You can run this as a data team of one, but obviously as the needs of your organization, get larger. You need more people. And so you may develop your organization into these different roles or something like that.
+
+All in all analytics engineer is a new role that can help data teams move faster. And next we're gonna talk about DBT and how that fits into the bigger picture here.

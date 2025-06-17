@@ -1,0 +1,49 @@
+fun-c8-l5-dbt explorer overview
+
+At this point, you have a job running a production, building the models, running the tests, and generating the documentation that you built developing in dbt. The next thing I want to show you is a quick tour of dbt Explorer. You'll find this on the left hand side where you see the compass. And here is dbt Explorer.
+
+First thing I want to show you. My favorite part about dbt Explorer is the project lineage. This is the DAG that you built while working development. And so I can see the full lineage of my project.
+
+I can see sources here on the left. And then the downstream. Building of models all with dependencies, they're indicated by arrows. Another cool part of that is I can jump into lenses and actually jump into materialization type and it labels the materialization type on each of these.
+
+I can see the status base off the last run. Modeling layer. Was it staging or was it marts? And I can even see the test status there.
+
+Did the test pass, did they fail? Unknown. If there's no tests in place. We'll have the X here to go back to our homepage of Explorer.
+
+Few things over here, underneath project details. I can see performance and I can see my most executed models. Longest model executions. Most failed models.
+
+So it looks like my first dbt model failed a hundred percent of the time. So I might want to look at that. I scroll up. I can go to recommendations and at a very high level, I can see what's the test coverage and what is the documentation coverage of my project.
+
+I can then also see much more granular recommendations down here. Where I see. I'm missing a primary key tests on stage stripe payments. Also one in fact orders also one on dim customers, so I can jump into development and make those changes.
+
+If you want to dig into individual resources, you have three ways to get there. You can go to resources and look at models, sources, tests. You can go to file tree and actually navigate based off the file tree you built in development, or you can even go to database and look at the. underlying.
+
+database objects that a dbt is aware of or is constructing. So I could go into analytics and see. All the things that my project is building in production. I'm gonna go back to resources and let's take a look at models, sources, and tests.
+
+If I click on models. I can see all sorts of different things, just at a high level view. I can see my row count is a hundred here for dim_customers. Let's take a look at actually.
+
+stg_jaffle_shop_customers actually want to go there. And so immediately off the bat, I get one step up one step back. In terms of my lineage, it's nice to know where this is coming from and where it's going. If I want to change how far up and down that's going, I can click full lineage and then change my selectors here.
+
+I'm going to keep it simple and come back here though. I can see the description I wrote in documentation here, the tests, and that can see a few more details that are either in my dbt project or are pulled from my underlying data platform. If I scroll up and go to code, I can see the pure dbt code here, or I can see the pure compiled SQL here. Depending on who's viewing this, that could be particularly helpful.
+
+Then underneath the columns, I'll automatically see all the columns on the final output of this model. And I can see customer ID, first name, last name. I can see what tests are run on those. And then if you open this up, you can actually see column level lineage here.
+
+I can see upstream from stg_jaffle_shop_customers. The customer ID column is coming from the ID column on the jaffle_shop.customer source. And then that same column is being passed downstream to a dim customers.
+
+As it passed through, you'll see even these little markers, this was a rename of the same exact column there. And then we'll see this as a pass through of the same column name there. We saw some performance at a high level earlier. You can also see performance on the model level, so I can see the jobs that it's included in.
+
+I can see the last run execution time. I can see the time, count, tests, how those tests are doing and that I can even see recommendations on the model level. If there's anything I should improve to follow our best practices for dbt project structure. If I see a model that I want to change, I can even click this open in IDE button.
+
+And that will take me to the develop interface where I can open a branch, edit that model, make a commit and merge that into main. Let's take a look at sources. I'll see right here, all my sources at the source level, not the table level just yet. And I can see what is the status of those sources.
+
+I can click in. I can see the description that I wrote in development. I can click into actual source tables here. I get that same lineage in a very similar overview that we saw with models.
+
+I see a description here that I wrote in development. Some more details. And then I can go to columns. I get that same column level lineage here.
+
+I see that's being passed upstream, downstream. I can see status. And see the lineage there as well. I can even go to recommendations.
+
+It looks like I don't have any recommendations here at the moment. Final part. I want to show you is tests. You can see the different tests on each resource that you have as you build out your project.
+
+This will be quite a bit longer, hopefully if your data quality is top of mind. And so you even have the search bar here where I can look for something like. dim_customers and go find the model that I'm looking for. And while you're searching you can also.
+
+Filter based off what you're actually looking for, whether it's tests, sources, models, and these other resources that you'll learn about in a future advanced course. And so with that, I'll bring you back to the overview here. That is a quick tour of dbt Explorer.

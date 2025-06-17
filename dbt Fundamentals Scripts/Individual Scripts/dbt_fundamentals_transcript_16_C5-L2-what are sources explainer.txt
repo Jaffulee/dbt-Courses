@@ -1,0 +1,13 @@
+C5-L2-what are sources explainer
+
+In your analytics engineering workflow. You're always going to start with raw data in tables that is somehow brought into your warehouse or data platform through whatever means necessary. And so let's called those raw tables, let's just call those sources for now and consider this. In our models.
+
+So far, we've been referring to those sources using a direct string, like raw.stripe.Payments. And so that works. That's how we reference database objects. However, consider what happens if we reconfigure our EL tools to instead put that in a different schema or change the name slightly to follow our style guide.
+
+Then wherever you have referenced those raw tables in your models, you now have to swap that out manually, and that can be super tedious and eat up a lot of time where you could otherwise be doing something more valuable for your team. So this is where sources in dbt come into play. Sources in dbt allow you to document those raw tables that have been brought in by your EL tool and put those in a YAML file where you referenced the database there in the schema, and then the string of their name. You can even add aliases to point to each particular table in that YAML file.
+
+Then in your models, instead of writing something like raw.stripe.payment, we use what's called the source function. This works a lot like the ref function that you learned about with models. So we might pass something like {{ source('stripe','payments') }}, and then that is creating a direct reference to that YAML file that we created earlier.
+
+And when we run dbt compile, or we compile our code, dbt is going to look at that YAML file and then replace that source function with the direct table reference. So if someone I'm working on the EL part of your pipeline changes something slightly, you can go into the YAML file, tweak it real quick, and then everything is back up. The other benefit of sources is that they will now show up in your lineage before configuring sources. Oh, you have our blue nodes in your DAG.
+
+And so with sources, you now have green nodes along the left side, that show you the full orchestration of data transformation from raw data, all the way up through those final fact/dim models. So all in all sources give you really two great superpowers. One of them is, uh, being able to configure your sources in one place and then make tiny changes there that persist into the rest of your project. And then also being able to see at a high level, the raw data that is powering all the modeling that you're doing with dbt.

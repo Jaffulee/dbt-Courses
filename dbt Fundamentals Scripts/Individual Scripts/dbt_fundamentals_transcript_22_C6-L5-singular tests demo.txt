@@ -1,0 +1,31 @@
+C6-L5-singular tests demo
+
+In our last video, we learned how to apply generic data tests to many models in our dbt project by declaring test blocks in our YAML files, like these. This is not the only way to apply data tests to our models. dbt also supports data
+
+testing of specific models with custom SQL scripts known as singular data tests. These are most useful when there is a specific attribute of a particular model that we want to make an assertion about, but it doesn't neatly fit into the basic types of data tests that dbt
+
+ships with.
+
+Let's take a look at our staged payments model here coming from our Stripe data. We can see that for each order, there can be multiple payments. For example, order_id 5 here has two payments, which are payment_id 5 and
+
+6. We want to be able to assert that the total order amount is positive for every order in our data.
+
+In order to make this assertion, I'm going to start by creating a new SQL file in our tests directory. So let's go to the test directory here and create a new file. I'm going to call this file assert_stg_payments_amount_is_positive.sql. This data test will be a SQL statement, so it needs to be a do SQL file, and let's hit create.
+
+The first thing we need to do is make a reference to the dbt model that we want to apply a
+
+data test to. So I'm going to do that with a select star from my ref, which is stg_stripe_payments. So I'm going to do that in my CTE at the top of this SQL file. This will be with payments as, and then select star from ref,
+
+and then the name of my model, which is stg_stripe__payment .
+
+Next, we need to remember that dbt data tests are configured to fail when the query written detects records that violate the assertion we're making about our data. If we want to assert that for every order in our stg_stripe__payment model, we have a positive total payment amount. We need to write a query that detects rows where we actually get a negative value for our total payment amount. So let's write that query.
+
+Let's say, select order_id and then we want a sum of the amount field, and let's name that total_amount. This will be from our CTE, named
+
+Payments. And then, we need to group by order_id. Finally, let's do a having total_amount is less than zero.
+
+So, we're detecting for orders where the total amount is negative, which violates our assertion that none of these should be negative. This is how dbt is going to know to apply this data test. Let's go ahead and run this data test on this model with our selection syntax as we have done previously. This will be dbt test --select and then our model name stg_stripe__payment.
+
+Great. So there's our data test. We can look at the details here. In the details, we can see the query that we wrote.
+
+which is asserting that all orders have a positive total amount. And you can see that this is wrapped in the standard counting behavior to understand if there are any violations of that assertion, like we saw in the generic data testing section as well.

@@ -1,0 +1,19 @@
+C4-L2-what are models-[Updated Apr-2024]
+
+In analytics, the process of modeling is the shaping of your data between raw data all the way up through your final transformed data.
+
+Now typically, data engineers are responsible for building the tables that represent your source data, and then on top of that, building the tables and the views that transform that data step by step, eventually building out the final tables that the BI tools can query to drive insights for your organization.
+
+In DBT, though, models are just SQL select statements inside of your DBT project, and each of these represent one modular
+
+piece of logic that will slowly take that raw data and build it into the final transformed data that you need.
+
+Each of these transformations are gonna live inside of SQL files written and stored in your DBT project inside of the models folder.
+
+Now a good assumption to have early on is that each model will map one to one with either a table or a view inside of your actual data warehouse.
+
+Now there will be some different materializations that we're gonna
+
+cover later where this is not necessarily true, but this is a good assumption to have right now when you're just getting started.
+
+And that's what's just great about DBT is that you don't necessarily need to know the DDL or the DML that's necessary to build something as a table or to build something as a view. You simply just configure either at the top of your SQL file or at a separate YAML file how you want any individual model to be built. Ultimately, this allows you to focus on writing great business logic inside of your SQL files and then let DBT take care of all the DDL and the DML that's needed to materialize items inside of your data warehouse.

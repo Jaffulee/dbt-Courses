@@ -1,0 +1,109 @@
+C4-L5-modularity and ref function demo
+
+We've discussed this whole idea of modularity, and it's time to apply it to our project. We've previously said that we're gonna take dim customers, and we're gonna break it into three different models.
+
+The approach is that we're gonna take this logic right here, all about customers, where we're selecting the ID, renaming it, and then two more fields. We're gonna put that into a model of its own.
+
+And then we're also gonna take the idea right here about orders, and we're gonna put orders in a model of its own. So let's go ahead and see how that's done. We're still gonna place these models inside of our models folder. So let's go ahead and create a file, and we're gonna make a spot for customers. Now, since this is staging, let's call this stage customers.
+
+We're gonna add the SQL file extension just as before. We'll go ahead and we're gonna create this file.
+
+Now, it's empty.
+
+Let's use this section as our starting point. I'm gonna go ahead and pull this CTE out, I'm gonna place it over here in stage customers.
+
+Let's place it in here. We have the beginnings of a CTE. We're going to have to end it here and then let's pull everything out of this model right here at the end.
+
+Alright. Let's save that.
+
+We have created our very first staging model. It's all about customers. We're taking care of our work here, taking care of a little light refactorization.
+
+Now let's make sure it works. We can use the preview button.
+
+Let's select that, and we should see if we get our three fields as expected.
+
+Wonderful.
+
+Customer ID, first name, last name. This particular model is working.
+
+Now, let's come back and do the same thing with this other logic that's down here that's all about orders.
+
+We'll go ahead and follow our same procedure. This time, I'll go ahead and let's grab this information that we're going to use this CTE. We'll pull that out and let's place yet another new file inside of our models folder. This one will be staging, but for orders.
+
+We'll place our SQL in here and because we want to CTE, let's clean things up a bit and then we'll pull everything out of our CTE now that this model's built.
+
+We'll save that.
+
+And now we have our second staging model stage orders that's all built.
+
+Well, stepping back over here to dim customers, the rest of our logic is still very useful to us. This is where we're doing our joins that we discussed last time, and we're still relying upon orders and customers in building out the rest of this logic. So the idea here is going to be, let's leverage the fact that these two models, these staging models have been built, and let's leverage that all this work has been done and pull that right in to our dim customers model right up here at the top. Let me show you how that's done.
+
+We still have a CTE that we're building. Let's go ahead and get that going.
+
+We'll open ourselves up a little bit of space here.
+
+We've already done all the work. So let's bring in that work that's been materialized in our warehouse as stage customers, where we can select everything in from where are we selecting.
+
+You know, in dbt, we have a very important function, and it's called the ref function. And this function allows us to go and pull information from a model that's been materialized in our warehouse and to create dependencies. We're going to enclose this ref function inside of double curly braces.
+
+And then we're going to send the ref function a parameter inside of single quotes. And the parameter is the name of the model that we want to be used. So in this case, stage customers.
+
+Get ourselves a little space here just for readability.
+
+Now I can't quite show you yet how this will work because we've got to pull in information about our orders. So let's go ahead and build now a second CTE orders.
+
+Let's clean up some of our previous cutting and pasting here and we'll do the same thing.
+
+We're going to select everything out of our state orders CTE, but we're gonna do the same thing with the ref function. So let's build that again.
+
+Remember, it's the name of our model.
+
+Now I can leverage the work that we've done inside of this particular model in advance. We just bring it all in. I don't have to do the logic here. Let's look quick. Looks like I'm missing a comma on this CTE. We'll make sure everything is gonna run here. We'll clean some things up, and I'm gonna go ahead and I'm gonna save.
+
+We've set up that we can reference right here in dim customers whatever has been materialized in our database with the work that we've done in stage customers and the work that we've done in stage orders. We've brought them in as CTEs customers and orders, which then lets the rest of our query run because we are using orders and we're using customers.
+
+Now, before I actually run this, I wanna introduce you to this compile command button.
+
+I'm gonna go ahead and click that. I wanna show you how each of these ref macros actually resolve themselves in what's gonna be submitted to the data warehouse.
+
+You'll notice up here at the top line nine, we're referencing stage customers. We're building dependencies there. But what actually gets submitted to the data warehouse?
+
+This resolves down here to my database, my schema dbt dehorner, and then the actual model is going to be built STG customers. Now, this is very powerful because we're taking this code and it's resolving specifically to me in my development environment. That means you could take this code and it would resolve to your schema yet the same model. This allows us to share code and to work on different items and yet still be in our development environment. Likewise, you'll see stage orders, resolves to my schema, and again the model, s t g orders. This is where Ref is doing a lot of work for us, not only building dependencies, but allowing us to work in our own development environments.
+
+Now at this point, we haven't actually created anything in our data warehouse. We've used the preview command button, but that allowed us to look at the result set, but didn't materialize anything. Likewise, with compile, we could examine the code and how it resolves, but nothing's built.
+
+In order to build these items, we need to come down here and we need to run a d b t run.
+
+But because we use the ref function, we're gonna have items build in dependency order. You're going to notice that the different items that get built are going to be in a sequence such as stage customers and stage orders are gonna need to be built before dim customers can be built because we created dependencies.
+
+So let's go ahead and run that right now and we'll examine the results.
+
+You'll start to see down here on the bottom how the different models start to get built. Notice stage customers and stage orders are getting built first.
+
+And then finally, dim customers. And then note my first dbt model and my second dbt model are from the examples that were brought in. We'll deal with those later. And if we come in here, stage customers, we come into the details tab.
+
+Let's go and pull that down.
+
+You'll see that stage customers was built as a view.
+
+Likewise, stage orders.
+
+We look at the details here.
+
+We'll see that was built as a view.
+
+And if you recall on dim customers, we had a config block in there, and that config block was all about building things as a table, and we see we're still creating or replacing the table.
+
+Let's go ahead and just to be sure, let's jump over to Snowflake. We'll likely have to reset or refresh.
+
+And let's take a look and see what's sitting inside of my tables and my views for my schema. And sure enough, dim customers, and then our two staging models, stage orders and stage customers.
+
+Wonderful. Everything's working. We've now created our three models out of our original dim customers model.
+
+Now something that's very powerful, you get a glimpse of it over here under this lineage peak, but let's come down here because I wanna give you a sneak peek at DBT docs. So So I'm going to run a dbt docs generate, and then use that to explore this whole idea of dependencies.
+
+Let's go and let this run, and then we'll jump over into those docs and take a look around.
+
+Our docs just finished generating. Let's bring the command bar down. Right up here, this icon for view docs, we're gonna select that, have a new tab. And we have a whole module on this documentation area. For right now though, let's focus on the bottom right where it says view lineage graph. I'm gonna select that, and we're gonna take a look here at what we've been building. We did our work with DIM customers, and we built a stage customers and a stage orders.
+
+So, ultimately, you can now see how we did apply modularity to our project. We now have building blocks that we can use for future models as we continue to build out our project.

@@ -1,0 +1,21 @@
+C7-L2-why is documentation important explainer
+
+Hi. My name is Beth Hipple. I'm a manager of technical instruction at dbt Labs. Let's dive into documentation.
+
+Think back to the last time you onboarded to an organization.
+
+Were you able to onboard quickly and contribute to your team? Or was it really challenging to find the answers to the questions that you had? If you were able to onboard quickly and you could find all the answers that you had, your team probably documented their workflows very well. But if it was really challenging and you had to constantly Slack message people, send emails, jump on Zoom calls, then you should probably consider leveling up your documentation on your team.
+
+In analytics, this is often a really important part. We want users and developers to be able to answer their own questions. Things like, what does this data mean? How is this field being calculated?
+
+The issue though, is that this documentation is often separated from the code itself.
+
+If you have to consider your time in developing the code and documenting the code, which one's going to win? Probably the development of the code. So dbt is considered this, and we've put the development process and the documentation process in the same interface.
+
+Documentation in dbt is done in yaml files right where we develop our models, so that we don't have to go to a separate repository.
+
+These then can be served up in a very user friendly interface, and it doesn't require the user to have any coding knowledge to be able to answer their own questions.
+
+So you don't have to answer another Slack message or email or jump on a Zoom call to answer those questions. They'll be able to self serve.
+
+This is how documentation can level up your workflow.
