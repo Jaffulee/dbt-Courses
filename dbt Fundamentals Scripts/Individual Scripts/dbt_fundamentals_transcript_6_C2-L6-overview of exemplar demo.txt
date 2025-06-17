@@ -1,0 +1,51 @@
+C2-L6-overview of exemplar demo
+
+Hey everyone. In this video we're gonna do a quick walkthrough of what the project will look like at the end of this dbt Fundamentals course. So here I am in the dbt Cloud IDE and we're gonna look at model sources, tests, and docs. And so just to orient you to everything we have what we call here is a DAG ,D-A-G directed Acyclic graph, and this shows me the flow of data all the way from source, those green nodes all the way through this final model called DIM customers.
+
+And so to make that super clear, these green nodes represent tables in my data platform that were dropped off by some loader tool, maybe that's Fivetran, maybe that's some other custom Python script, but those are sources, those are brought into my data platform automatically. The blue nodes are then called models and those map one to one with a table or view in your data platform. And so I'm gonna design those and build those here in dbt and then I can persist those over in snowflake, Databricks, Redshift, BigQuery or whatever other data platform you might be using. And so before we jump into the nitty gritty there the first command I want you to be familiar with as you jump into the course is dbt Run.
+
+And so what dbt run is gonna do is from left to right in the DAG, below it's gonna build each of those models. And so you can see I've run this a couple times in the past but we'll see a new run queues up in a moment. There we go. We have stage customers, stage orders, stage payments, and then fact orders being built.
+
+And in a moment we'll see everything else built as well. Great. Cool. So you'll notice stage customers, stage orders, stage payments.
+
+If I look here, I can see those were the first three models that were built. So now you might be wondering how does this actually get built? We're gonna learn a lot about that throughout the course, but just wanna point you in the right direction so you have some grounding. If I look here at Stripe, I can go to Source Stripe dot YAML.
+
+And what you'll see here is I have a configuration in place that tells dbt about this Stripe payment source here. It's purple now because I've highlighted it. But if I look back at DIM customers, you'll see that it's actually a green node, right here. So first thing I need to do is in some YAML tell dbt about those raw tables that were brought in by my loader tool.
+
+And then downstream from there I can even double click on the DAG here to navigate. I can build dependency back to that source using a source macro like you see here. And then the rest of it is just pure SQL. And so in this model in particular, I'm just cleaning up some of the raw data, renaming some column names changing the amount.
+
+I think it was sent over to dollars. The arrow you see here is a dependency built through this source macro here. So instead of writing the raw table name, I can use a source macro and that dependency gets built. If I then go downstream to fact orders, I can see that fact orders actually builds off of two models, stage orders and stage payments, and I'm using what's called the ref function here.
+
+And so the order of which your models get built is all done when you write the SQL transformation to do whatever you want it to do to build that particular model. So I have two refs here that's building those two dependencies here in the graph. So that's just enough about sources and models to get you started, let's turn our attention to tests and docs. So let's find where those tests and docs are actually configured.
+
+If I go to Jaffle shop here, I can see Stage Jaffle Shop dot YAML, and what I can do is configure tests and docs in YAML files really quickly and easily. And so for example, here in terms of tests on the stage customers model, I have a column called Customer id, and I want to test that for uniqueness and to make sure that none of those values are null. I can do that with just a few lines of yml, and then I'm able to enforce that assumption against that particular column. That's the basics of tests.
+
+We'll get into that more later in the course. In terms of documentation, I can actually write descriptions on the model and the column itself, so I can leave a note for my future self. I can leave a note for a peer, I can leave a note for a stakeholder who I've never even met, and they're able to see that documentation in a documentation site that I'll show you in a moment. A couple other commands I wanna show you just to get you started.
+
+dbt run, which we saw before, will actually build your models. dbt test will actually test those models as they've been built. And so we'll let that queue up. And what that's gonna do is given the tests that I've configured here, actually run SQL against those materialized tables or views, and it will tell us if those things are in fact, unique or not null.
+
+So in this case, we were looking at the stage customers model, customer ID column, and I can see here we have, gotta look through the logs here a little bit. Stage customers, customer ID column, making sure that's unique. Great. So we can see that the test is actually there and then it actually passes.
+
+right here. So that's tests. And you'll learn a little bit later about another command that combines runs and tests, but also we have dbt docs generate. dbt docs generate, will build the documentation site that you can hand to stakeholders so that they know what models mean, what columns mean and things like that.
+
+So we'll let that queue up in the background and I'll let you preview that particular site in a moment. So what's happening here is dbt is going through my entire project and building a documentation site. It's also sending some queries over to my data platform to get some information about the tables as they've been materialized. And once I run that, I can click on this little book here for View Docs.
+
+And what we see here is a documentation site that will show us information. So you don't need to actually go into the code base and see these things. So let's see if we can find stage customers, customer id, and a description on that column. So if I go to Jaffle shop or Yep, let's go to Jaffle shop here, models.
+
+Let's go to stage customers right here, we see a primary key for customers, and if I toggle back to the IDE, the primary key for customers is...
+
+There we go, the description's right there. So someone can come in here to docs and find out what that column actually means. It's a very self-explanatory description, just using it as an example. So that is documentation.
+
+And the one thing, one additional thing I wanna show you that I get really excited about is this green button here, view lineage graph. If I make this large, I can see the lineage upstream and downstream from that model. I can clear this selector here, and I can also see the entire DAG here for my entire project. Really nice.
+
+So without even logging into the IDE or knowing how to write dbt code, I'm able to see the flow of data at my organization. And so at this point, we've talked about dbt run, talked about dbt tests, and we talked about dbt docs generate. We've talked about those three commands in the context of you as a developer in dbt code. So if you're writing dbt you can use those three commands as you develop to make sure things are building as you would like.
+
+However, if you really wanna get the most out of dbt Cloud, you likely want to run that on a schedule and not log in every time to run that. So this is where deployment comes in. In deployment, you have the chance to set up an environment. And so in this case, I've already set up a deployment environment.
+
+I was working the development environment previously. So if I click on this deployment environment, I can configure what we call jobs within this environment. And so you'll see I have one job down here daily run, and I kicked it off about 20 minutes ago. And what I can do here is run a set of commands on a schedule at whatever cadence I would like.
+
+So in this case, let's see what I have configured here. I have this set to run every sunday through Saturday. So I guess I should update my name there hourly run might be more appropriate. I'm gonna turn this off though because it's just using sample data.
+
+I don't want burn some compute. But I can also pass commands here, so I could run dbt, run dbt test. But in this case, and we'll cover this later dbt build is a combination of run and test. It'll build a model and then test it.
+
+It'll build another model and test it. So a few more intricacies to that command that we'll learn later as well. And so to summarize, over here in the developed tab, this is where you can work on your project, add models, add nodes to your graph like you saw here, and then in deployment you'll be able to run that on a schedule. We'll be building towards something very similar to this throughout the rest of the course but just wanted to orient you to where we're headed throughout dbt fundamentals.

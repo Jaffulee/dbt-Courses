@@ -1,0 +1,19 @@
+C4-L6-quick history of modeling explainer
+
+If you've been working in analytics for a while, you've likely heard the term star schema or Kimbell Data Vault. Now these are all ways of thinking about how data should be organized within a database, and many of these methodologies were created when storage was very expensive and we had to reduce the redundancy in our data. These approaches are often grouped together into a concept that we'll call normalized modeling.
+
+Now over time, technology has continued
+
+to change, but we still have tremendous respect for these ways of thinking because they've shaped how analytics exist today.
+
+However, with this new technology, we can optimize for different things like human readability or for how fast we're going to be able to deliver a final table to our stakeholders.
+
+So for our course, we're actually going to approach things from a denormalized standpoint.
+
+You may have heard these as agile analytics or perhaps referred to as ad hoc analytics,
+
+where the goal is to build items quickly for the people that need them so that they can have access to the needed data in order to make decisions.
+
+All this to say that although we're going to approach this course with a denormalized viewpoint, when you go to build your own DBT project for your organization, you can still use star schema or or you can still use Data
+
+Vault. That's your view of how you want to build your database, and that's totally fine. And DBT is a tool that can do that. DBT does not lock you into this denormalized view of how data should be structured. It's just that that's the approach that we're gonna utilize for our course.

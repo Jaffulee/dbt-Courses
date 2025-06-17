@@ -1,0 +1,1698 @@
+--- Script 1 ----------------------------------------------------
+C1-L1-meet your instructor
+
+Hi there. My name's Kyle. I'm the director of training here at dbt Labs. I'm really glad you're here to continue your learning journey, leveling up with dbt fundamentals.
+
+I first discovered dbt in a former career as a high school math teacher. I was in charge of a lot of the reporting to make sure our seniors were on track to graduate. And so what I was originally doing was exporting a lot of CSVs from different systems, putting together some very hacky Jupyter notebooks and then uploading that data to a Google sheet, and teachers would look at that Google sheet too, to figure out who needed some more coaching and things like that on the path to graduation.
+
+But then I discovered DBT and just totally streamlined my workflow. I went from every Wednesday morning doing a very manual process for thirty five minutes of that exporting CSVs, running Jupyter notebooks, making sure the Google Sheet looked good, to just running a single command, each morning, when we needed to refresh the reports. Very, very simple.
+
+You'll learn more about that throughout this course. And so just personally really leveled up my own career, my own data workflow, I'm excited for you to hopefully experience something very similar.
+
+Let's jump into the course. Course covers, five key topics They are sources, models, tests, docs, and deployment. This is the real basis of the DV development workflow, and then deployment will show you how to run all your transformations on a schedule. And so as you jump into the course, you'll notice we have some very specific pedagogy in how we teach, and just want you to know what to expect. First, you'll have explainers, where we outline concepts kind of teach some of the software engineering best practices that we're bringing to the data workflow.
+
+Then we also have demos where we're showing off how a particular functionality and dbt works, and then a really important proponent that the team believes in is that you have a chance to get hands on keyboards in this course. So we'll have a practice section or a lab section where you can actually take DBT for a spin, try replicating what we showed you in the demo, maybe try some stretch exercises, but then we want you to be supported. We'll also provide an exemplar for you to check your work.
+
+At the very end, we want to check your understanding, so we have a very quick quiz, on each section, just to make sure you're checking your progress throughout the the learning. And then finally, we have a quick review section. If you just need a quick recap of what was covered in that particular chapter.
+
+And so it's broken into a few different chapters.
+
+As I've outlined before, and the quizzes, this is a low stakes course.
+
+It's not gonna passfail or anything like that. You can take the quizzes as many times as you would like. To once you get through the whole course, pass each of the quizzes, then at the end, you'll be issued a DV fundamentals badge. Feel free to, put that on LinkedIn if you want to show it off.
+
+And so I'll get out of your way shortly, but, we'll love to hear your feedback on the course at the very end or on LinkedIn or reach out to us in dbt community slack. We take our teaching craft very seriously here on the training team. So let us know, and I'll I'll step aside and let you learn from myself and the rest of the team. Thanks.
+
+--- Script 2 ----------------------------------------------------
+C2-L2-traditional data teams explainer
+
+Hi everyone. So we're talking about who is an analytics engineer? Where did this role come from, why is it necessary for data teams. We are going to go on a little bit of a journey starting with traditional data teams, then talking about ETL and ELT, and then we'll circle back to where analytics engineering fits in to the whole data team structure.
+
+So let's first start with traditional data teams. Traditional data teams have typically two roles, data analysts, and data engineers. The data engineers are in charge of building the infrastructure that the data is hosted on, usually databases. And then also for managing the ETL process extract, transform load for making sure the data is where it needs to be and in tables so that the analysts can then query it.
+
+The skill set for a typical data engineer includes SQL for sure. But also includes, Python, Java, other functional programming languages. To orchestrate the production of that data so that the analysts have it to just to work with. The data analysts on the other hand, tends to work a little bit closer to the business decision makers in finance, marketing, and other departments.
+
+And they typically query the tables that the data engineer has built to serve up dashboards or different types of reports. And so analysts their skill set usually involves a lot of Excel and then also, quite a bit of SQL to query those underlying tables. So when we think about these two roles at an organization. There's essentially this gap between the two of them, the data analysts on one hand knows what needs to be built so that business decision makers can make those decisions.
+
+And then the data engineer has the skills to build that, put that in production, have those tables refresh at some cadence because of this gap between the two, there's an opportunity for teams to work a little bit more efficiently. It wasn't until the recent advent of some technology, that we'll learn about in a moment that makes this possible for us to rethink what a data team could be.
+
+--- Script 3 ----------------------------------------------------
+C2-L3-etl vs elt explainer
+
+So you've been working in data for awhile. You've likely done the following extracted data from some source, whether it's email as a CSV or an Excel file, manipulated that data and then serve that data over to a colleague so that they can make decisions based off your analysis. This is in a nutshell, like its own ETL process. You're extracting the data by downloading it.
+
+You're manipulating that data. You're transforming it and then you're loading that data, giving it back to someone who can use it in that new state. The more traditional ETL process is handled by data engineers, where the data is taken out of a database, transformed on some third party machine and then loaded back into the database so that data analysts can query that data. This usually requires a few, additional skills and on top of SQL Python, Java, other functional programming languages to make this happen.
+
+Then in addition to that, once that table is built, that process of building that table, refreshing that table, inserting new records, rebuilding the table, whatever it is, it needs to be automated, and that requires additional tooling, tools like airflow have commonly been used to automate that process. But then there's been this recent addition and introduction of data warehouses that are based in the cloud. And because they're based in the cloud, organizations can just purchase them and scale them up as needed. They don't need to build these things on premise, so they just have them when they need it.
+
+And then they'll also this term data warehouse has emerged and it means slightly different things at different organizations, but in a nutshell, the data warehouse is the coupling of a database and a supercomputer that can run transformations run code against that database. This has been a complete game changer for the analytics workflow. Particularly, because you can just take raw data, get that into your data warehouse and then transform it from there. There's no longer this extract load extract load process every time you want to rebuild new database object.
+
+And so this has changed the term ETL, swapped it around a little bit to E L T extract load transform. So for data teams, what this means is we can first focus on just the E and the L. Let's extract data from some source and then load it into our data warehouse, just get it in the data warehouse. And then once it's there, we can transform it into whatever shape we need so that analysts can query that data later.
+
+Total game changer. And some other impacts of this are the compute that's associated with data warehouses is scalable. If you need a more powerful computer, you can get that just by asking your provider for more. You have to pay for it, but you can just get a stronger computer.
+
+Also as your organization grows, you're inevitably going to need more space to store that data. In the cloud, these databases, data warehouses are scalable. You can store more data as you need. And then finally, there's this old process of extracting data and then loading it back every time you want to build a new database object.
+
+That doesn't happen anymore. Raw data is there. You transform it? There's no longer this transfer of data, consuming a lot of energy and probably consuming a lot of financial resources to make that happen.
+
+And so with this game changing technology, we can now introduce this new role of analytics engineer and rethink about how our data teams work together. That's what we want to cover next.
+
+--- Script 4 ----------------------------------------------------
+C2-L4-analytics engineer explainer
+
+So let's revisit the data team. Previously, we covered that the traditional data team is made up of data analysts and data engineers. And what really drove this process was the ETL framework. that data engineers owned of extracting the data, transforming the data and loading the data.
+
+Data warehouses enable this new process of E L T extract the data, load the data, and then transform from there. And so with this changes is that we have this new role emerging known as analytics engineer. And we'll just talk about first the analytics engineer, and then we'll see how that impacts the analyst and the engineer, the data engineer as well on the team. So the analytics engineer is solely focused on taking that raw data and transforming it into transformed data so that the analysts can take it from there and serve whatever needs the business has.
+
+They're really in charge of the T and ELT. This then frees up the data engineer to focus on the extracting from sources and then loading into the data warehouse or the EL in ELT. They can also focus on more macro level things, maintaining infrastructure and things like that. Then for the analyst, they can work more closely with the analytics engineer to deliver these final tables that can then be queried with a BI tool, in a much faster way so that they can get what they need when they need it and get those to the right people to make the right decisions.
+
+And so ultimately, the team is composed of data engineer, analytics engineer, and then a data analyst and maybe different numbers in each of these roles. I would love to share with you a quick snippet of an article that my colleague Claire wrote. I'm going to show that on the screen in a moment, highly recommend you check this out. I'll link it below.
+
+It's a great read. And so take a moment to just pause the video and just read the three columns here and kind of soak in what each of these different roles do and how they might work together. Great! So thanks for, thanks for taking a look at that.
+
+Important disclaimer here is that these roles are the lines between these roles are really blurry. The people don't need to be siloed into these specific job descriptions. And in fact, if you're a brand new data team, you might be a data team of one, you might be owning all three of these roles and there's tools to do that. These days, your data warehouse in the cloud, there's off the shelf tools for extracting and loading there's tools for transforming.
+
+There's plenty of tools for visualizing that data. You can run this as a data team of one, but obviously as the needs of your organization, get larger. You need more people. And so you may develop your organization into these different roles or something like that.
+
+All in all analytics engineer is a new role that can help data teams move faster. And next we're gonna talk about DBT and how that fits into the bigger picture here.
+
+--- Script 5 ----------------------------------------------------
+C2-L5-modern data stack explainer
+
+All right. Let's focus on dbt in the modern data stack. Let's see how everything fits together. First, we have a ton of data sources these days.
+
+This could be Salesforce data, HubSpot data, all sorts of data being collected about our business, which we'll use to make key decisions. At the center of the modern data stack is your data platform. This could be Snowflake, Redshift, BigQuery, Databricks, or a plethora of other tools that are available for storing your data as the central location for your business. Those four are supported in dbt cloud, but if using dbt core, there are a ton of different community supported adapters for different data.
+
+And so you may be wondering how does this data move from data sources to data platforms? You could transfer all this data with custom tooling, through Python, Scala, or Java, but there's an emergence of a ton of different tools known as loaders or EL tools that will extract this data from those sources and then load them into your data platform. These are the E L step of the ELT framework as we move to cloud data platforms. And so once you have that data in your data platform, you probably want to use that data for something that's where BI tools come in.
+
+ML models come in. As well as operational analytics, where we may take some curated data from our data platform and push that back to our applications. And so let's draw some arrows here. We may be pushing the data to Tableau Looker mode, power BI, or maybe we're pushing it to an ML model or a notebook that we're using maybe in Hex or something.
+
+Or taking that data and pushing it into Census or Hightouch to then use that data really productively in one of our applications. So where does dbt fit in? dbt works directly with your data platform to manage your transformations, test them, and then also document your transformations along the way. So let's zoom in on this interaction here between dbt and your data platform.
+
+From on the left, we see raw data coming in and at the end of this process, we have curated data sets that are ready for our BI tools, ML models, and operational analytics. How do we get there though? With dbt it's really easy to develop your transformation pipeline because you are writing modular code in models as SQL select statements. You don't need to worry about the DDL and the DML to wrap around that.
+
+You're just focusing on select statements. And while you write those models you are building dependencies between models to transform that data over time. And so if we want to visualize that, we see, we have this dbt DAG for data lineage: directed acyclic graph. So on the left, we have our sources and those are transformed into our staging layer here into multiple models downstream.
+
+And then we can even make dbt aware of the BI layer or any of those downstream workflows. So while you're writing dbt code, you are slowly assembling this DAG. So you see complete lineage from source through use case there. At the end, we come back up here as you're developing your models, you can also test your models.
+
+So you can ensure that a primary key is in fact unique or is actually not null before shipping that data and then having that run in production. While you're also configuring tests. You can also document your models while you write the transformations right in the same code base. And so you create a new model, you configure tests on it, and then you write documentation while that is fresh in your mind.
+
+You don't need to open a new tab, go into a different system. It's all right there. So once you agree and trust your transformations and you've tested them and you've documented them, you can then deploy your dbt projecton a schedule. Through the dbt cloud interface is really easy to do.
+
+You set up a production environment or deployment environment, and then you set up a job. You can run that weekly, daily, you can re really get aggressive and run that hourly. If that is the use case you need. Then you have these refreshed datasets on whatever cadence that you need.
+
+So if we step back, we see that DBT is the T and the ELT framework in our modern data stack, powering the transformations of that raw data through those curated datasets to power your BI tools, ML models, and your operational analytics workloads.
+
+--- Script 6 ----------------------------------------------------
+C2-L6-overview of exemplar demo
+
+Hey everyone. In this video we're gonna do a quick walkthrough of what the project will look like at the end of this dbt Fundamentals course. So here I am in the dbt Cloud IDE and we're gonna look at model sources, tests, and docs. And so just to orient you to everything we have what we call here is a DAG ,D-A-G directed Acyclic graph, and this shows me the flow of data all the way from source, those green nodes all the way through this final model called DIM customers.
+
+And so to make that super clear, these green nodes represent tables in my data platform that were dropped off by some loader tool, maybe that's Fivetran, maybe that's some other custom Python script, but those are sources, those are brought into my data platform automatically. The blue nodes are then called models and those map one to one with a table or view in your data platform. And so I'm gonna design those and build those here in dbt and then I can persist those over in snowflake, Databricks, Redshift, BigQuery or whatever other data platform you might be using. And so before we jump into the nitty gritty there the first command I want you to be familiar with as you jump into the course is dbt Run.
+
+And so what dbt run is gonna do is from left to right in the DAG, below it's gonna build each of those models. And so you can see I've run this a couple times in the past but we'll see a new run queues up in a moment. There we go. We have stage customers, stage orders, stage payments, and then fact orders being built.
+
+And in a moment we'll see everything else built as well. Great. Cool. So you'll notice stage customers, stage orders, stage payments.
+
+If I look here, I can see those were the first three models that were built. So now you might be wondering how does this actually get built? We're gonna learn a lot about that throughout the course, but just wanna point you in the right direction so you have some grounding. If I look here at Stripe, I can go to Source Stripe dot YAML.
+
+And what you'll see here is I have a configuration in place that tells dbt about this Stripe payment source here. It's purple now because I've highlighted it. But if I look back at DIM customers, you'll see that it's actually a green node, right here. So first thing I need to do is in some YAML tell dbt about those raw tables that were brought in by my loader tool.
+
+And then downstream from there I can even double click on the DAG here to navigate. I can build dependency back to that source using a source macro like you see here. And then the rest of it is just pure SQL. And so in this model in particular, I'm just cleaning up some of the raw data, renaming some column names changing the amount.
+
+I think it was sent over to dollars. The arrow you see here is a dependency built through this source macro here. So instead of writing the raw table name, I can use a source macro and that dependency gets built. If I then go downstream to fact orders, I can see that fact orders actually builds off of two models, stage orders and stage payments, and I'm using what's called the ref function here.
+
+And so the order of which your models get built is all done when you write the SQL transformation to do whatever you want it to do to build that particular model. So I have two refs here that's building those two dependencies here in the graph. So that's just enough about sources and models to get you started, let's turn our attention to tests and docs. So let's find where those tests and docs are actually configured.
+
+If I go to Jaffle shop here, I can see Stage Jaffle Shop dot YAML, and what I can do is configure tests and docs in YAML files really quickly and easily. And so for example, here in terms of tests on the stage customers model, I have a column called Customer id, and I want to test that for uniqueness and to make sure that none of those values are null. I can do that with just a few lines of yml, and then I'm able to enforce that assumption against that particular column. That's the basics of tests.
+
+We'll get into that more later in the course. In terms of documentation, I can actually write descriptions on the model and the column itself, so I can leave a note for my future self. I can leave a note for a peer, I can leave a note for a stakeholder who I've never even met, and they're able to see that documentation in a documentation site that I'll show you in a moment. A couple other commands I wanna show you just to get you started.
+
+dbt run, which we saw before, will actually build your models. dbt test will actually test those models as they've been built. And so we'll let that queue up. And what that's gonna do is given the tests that I've configured here, actually run SQL against those materialized tables or views, and it will tell us if those things are in fact, unique or not null.
+
+So in this case, we were looking at the stage customers model, customer ID column, and I can see here we have, gotta look through the logs here a little bit. Stage customers, customer ID column, making sure that's unique. Great. So we can see that the test is actually there and then it actually passes.
+
+right here. So that's tests. And you'll learn a little bit later about another command that combines runs and tests, but also we have dbt docs generate. dbt docs generate, will build the documentation site that you can hand to stakeholders so that they know what models mean, what columns mean and things like that.
+
+So we'll let that queue up in the background and I'll let you preview that particular site in a moment. So what's happening here is dbt is going through my entire project and building a documentation site. It's also sending some queries over to my data platform to get some information about the tables as they've been materialized. And once I run that, I can click on this little book here for View Docs.
+
+And what we see here is a documentation site that will show us information. So you don't need to actually go into the code base and see these things. So let's see if we can find stage customers, customer id, and a description on that column. So if I go to Jaffle shop or Yep, let's go to Jaffle shop here, models.
+
+Let's go to stage customers right here, we see a primary key for customers, and if I toggle back to the IDE, the primary key for customers is...
+
+There we go, the description's right there. So someone can come in here to docs and find out what that column actually means. It's a very self-explanatory description, just using it as an example. So that is documentation.
+
+And the one thing, one additional thing I wanna show you that I get really excited about is this green button here, view lineage graph. If I make this large, I can see the lineage upstream and downstream from that model. I can clear this selector here, and I can also see the entire DAG here for my entire project. Really nice.
+
+So without even logging into the IDE or knowing how to write dbt code, I'm able to see the flow of data at my organization. And so at this point, we've talked about dbt run, talked about dbt tests, and we talked about dbt docs generate. We've talked about those three commands in the context of you as a developer in dbt code. So if you're writing dbt you can use those three commands as you develop to make sure things are building as you would like.
+
+However, if you really wanna get the most out of dbt Cloud, you likely want to run that on a schedule and not log in every time to run that. So this is where deployment comes in. In deployment, you have the chance to set up an environment. And so in this case, I've already set up a deployment environment.
+
+I was working the development environment previously. So if I click on this deployment environment, I can configure what we call jobs within this environment. And so you'll see I have one job down here daily run, and I kicked it off about 20 minutes ago. And what I can do here is run a set of commands on a schedule at whatever cadence I would like.
+
+So in this case, let's see what I have configured here. I have this set to run every sunday through Saturday. So I guess I should update my name there hourly run might be more appropriate. I'm gonna turn this off though because it's just using sample data.
+
+I don't want burn some compute. But I can also pass commands here, so I could run dbt, run dbt test. But in this case, and we'll cover this later dbt build is a combination of run and test. It'll build a model and then test it.
+
+It'll build another model and test it. So a few more intricacies to that command that we'll learn later as well. And so to summarize, over here in the developed tab, this is where you can work on your project, add models, add nodes to your graph like you saw here, and then in deployment you'll be able to run that on a schedule. We'll be building towards something very similar to this throughout the rest of the course but just wanted to orient you to where we're headed throughout dbt fundamentals.
+
+--- Script 7 ----------------------------------------------------
+C3-L6-dbt cloud ide overview-[updated 2024-10-23]
+
+
+
+By this point, you should have connected dbt Cloud to your data platform and Git repo. So here you are now, in the IDE, or Integrated Development Environment. I'm going to give you a quick tour of all of the things you need to know to be successful in this course, and I'll even show you some little Easter eggs.
+
+You know, some spoilers of things that you're going to be seeing later on.
+
+So let's get started with stuff here in this menu on the left. So right now you can see we're in the Develop tab. I have the choice to develop in the Cloud IDE, which is where we are right now, in the Cloud CLI, or using the Visual Editor. Right below this Develop tab is the Deploy tab.
+
+This is where you'll click to see all things deploy related. So, you can see your run history, you can see your environments, the jobs that you made in your environments, and your data sources. Basically, this is where you'll go to
+
+see all job, all deployment related things. This dashboard tab right here gives you a quick overview of what's going on in your project.
+
+Things like recent job runs, deployment environments, you know, that sort of thing.
+
+Uh, this book icon up here, if I ran the command dbt docs generate, is where I'd click to view all of the documentation for my project. Down here, this tab here, is where I would go to either view my account settings, or
+
+switch my account if I have multiple. When you initialized your project, dbt built out all sorts of folders like the ones you see here, and it also built out a couple files like your dbt project YAML file, which I've
+
+just opened.
+
+It covers some really important configuration paths for different features in here. It has the name of your project, all sorts of folder configurations that we won't really get into, although we will be looking closely at your models folder and your tests folder during this course. Information on the rest of those folders is covered in other courses and in the dbt documentation. I'm going to go ahead and dive into our models folder a little bit.
+
+We can see what kind of files we have here. We see a lot of YAML files and a lot of SQL files with the odd markdown file. At the top of the screen here, you'll see all of the tabs that we have open. Right now, the only file we have open is our dbt project.
+
+yaml file. But I can also create a new file by pressing that new file button on the top right. This is essentially a SQL runner, so
+
+you can type any SQL in here, and you can also type in dbt specific code, so let's try that out right now. When you're working in here, you can click this little preview button, and this will show you what all your
+
+code will do when you run it against your data platform.
+
+What I put in there was just a small bit of dbt code with some Jinja. Again, Jinja is just a Pythonic language. And so what we're saying we're going to do here is iterate over ten numbers, uh, we're going to loop over ten numbers, we're going to union all those numbers. . So what we should just see here is everything from 0 to 9.
+
+Which is, if we scroll down to the bottom here, that's what we're seeing.
+
+When I click this compile button What this is going to do is it's going to take that dbt code that I just wrote, and it's going to show me the raw SQL that the dbt compiles to.
+
+Dbt code is very similar to SQL with some extensions, thanks to Jinja. So basically when you see anything like these double curly brackets here, Or these curly brackets with a percent sign.
+
+You can pretty much assume that's Jinja. We won't get too into Jinja. Just know that much and you'll be fine. So again, if we go back to our models folder, we see that we have a lot of SQL files in here.
+
+We call models, uh, SQL files that contain SELECT statements, but again, we'll get a little more into that a little bit later. I'll just click on a random model here. You can also preview and compile these. So if I hit preview, then we're going to see the table that we're, uh, that we're, that we're selecting from.
+
+And if I click compile, we'll get to see the compiled SQL code. This compiled code, uh, pretty much matches the uncompiled code.
+
+Except for when we're selecting from our table right here, because this is a really cool Jinja macro, or function, that we use to make it a little bit easier to reference tables. We also have this really cool Lineage tab here, so if I have a model open, I can click that Lineage button, and that little graph will pop up down here.
+
+This is a really cool thing that dbt does, because it keeps track of all of your dependencies between your models, so it knows What order things should be built in. If I click on any of these files down here, it'll just take me directly to that file. So now
+
+I'm in this dim customers file. I also mentioned, uh, YAML files earlier.
+
+I'll just click on a YAML file. These are where you're going to configure tests, documentation. We'll give you all the details on those later on. If you're new to YAML, don't worry about it.
+
+You'll be pretty comfortable with YAML by the end of this course. Now if I make any changes to my files, I'll make a really superficial change here, I'll just add, uh, add some whitespace. What I'll see is this little green dot pop up next to the name of the file that I edited.
+
+And if I save this file, we get this little M next to it for modified.
+
+These green dots and Ms will go away if I click our Git button up here, commit and sync, and I commit those changes to our branch. Basically what a commit does is it'll take a snapshot of your project's current state, and that can now be pushed into your Git repo where you commit a real change. You'll want to include a little message when you click this commit button. It'll prompt you to add a commit message.
+
+And you'll want this message to be pretty descriptive so that anyone can understand what you did and why. So I might add a commit message like, um, Added extra line of white space to stg_jaffle_shop.yml to demonstrate how to write a commit message, commit changes. Once your series of commits represents, you know, one logical piece of work, you might click, uh, create pull request button.
+
+What that will do is it will prompt someone on your team to look at your pull request, review your pull request, maybe approve your pull request, so that that can all be pushed into your main, you know, production branch. Now down here, this is where I might type out, you know, commands that I want to run, like say dbt run. which will build all of my models. If I typed dbt build, that would run a model, then test that model, and then repeat for all of my models in DAG order, in Lineage Graph order.
+
+You can also run dbt docs generate, which will generate all of your documentation. And now that dbt run has finished building all of my models, I can see all sorts of great information here. Um, I can see how long it took to run each of these models. I can see all the models that were, uh, that were run.
+
+I can see more details if I click on each individual model. You can see the actual code that was run, the compiled SQL. Uh, and if there were any errors when I ran this, we would be able to review them in this errors tab and try to figure out from the error message what actually went wrong. That was a really quick run through of the IDE.
+
+Now I want to show you some really useful keyboard shortcuts. So I'll open up new blank file. And to start, basically the most important thing you want to remember is the double underscore. That's going to show you a list of all of the keyboard shortcuts that you can use.
+
+I'm going to try, uh, say, the keyboard shortcut to write a reference statement. So I'll just write ref, and so if you type in double underscore ref, uh, a basic generic ref statement, ref function, whatever you want to call it, will pop up written out just like that. You'll learn a lot more about ref functions later on, but in general, if you want to use shortcuts. double underscore is the way to go to get access to all of them.
+
+Now I'll give you a quick overview of the rest of the UI so you can be familiar with everything before you jump further into the course.
+
+--- Script 8 ----------------------------------------------------
+C3-L7-ovrvw dbt cloud ui demo
+
+Hey everyone. We're going to jump into the dbt Cloud UI here, just so you have some orientation to where things are, where to go, where to find them as you navigate the rest of this course. So on the left-hand side, you should see this navigation. I'm going to keep it popped open for this, but you can also, if you'd like to keep your screen real estate, you can keep it nice and collapsed like that.
+
+I'll expand it like this. And down here, you'll see this little kind of like work building logo and you can choose your account. I'm currently working in Coap Sandbox. This is my sandbox account.
+
+And I could toggle into other projects if I. Opened this up here. So make sure you're working in whatever account you want to use for this particular course. Once I have that, you can then select a project.
+
+You may have already set one of these up and you might have multiple projects over time, depending on what type of account you're using. And so I am going to focus on analytics here. And so I'll already see, I'm brought into this dashboard here. I don't have much going on with this project at the moment, but once I do have it up and running things, running on a schedule, refreshing my pipelines.
+
+I will get to see some high level information about how my data pipelines are running, powered by dbt. On the left-hand side, there are three kind of key motions or key areas of the product that you want to jump into. So first being develop. There are three ways to develop in dbt right now there's cloud IDE cloud CLI and visual editor.
+
+And this course we're going to focus on cloud IDE. And you'll notice if I open that up, I actually land directly in the development environment for this particular project. So if I jump back. In a future course or a future time, you can check out these other options for development.
+
+And once you've done a bunch of development merged things to main you can then run your data pipelines built in dbt on a schedule using the deploy function here. This allows you to set up environments and within environments, you can run jobs, which is effectively running your project on a schedule. And then you can review the run history from each of those jobs. So this is a cascading effect here.
+
+Environments have jobs have run history. And once you've done that and run your first production run. You can navigate to explore which we'll show you. A very high level view of your project.
+
+So you can see how models depend on each other see your full lineage look at documentation and things like that. So you will likely spend most of your time as a dbt developer in develop, deploy, or explore. Great. So we'll jump into each of those throughout the course.
+
+So you're familiar with them, but just wanted to give you some orientation to those. As you are working through the course, you might need to investigate a few different things like connections, or just want to know where the account settings are. Those again are here under account settings. Anything under settings here is account wide.
+
+So if I'm working in an account with someone else, These will change things for both of us. Whereas your profile, these are specific to you as a developer. So if I click credentials, click on analytics, I will see my credentials here for development. And then finally, if you're interested in notifications, you can have email and slack notifications as well.
+
+And so that is your account settings. And a few more things just to get you oriented. For helping guides, lots of things to support you getting started. If you're watching this video, you're probably already in dbt learn.
+
+We also have our product docs, slack community, and our community forum as well. If you need to reach out to support or check the status of dbt Cloud, you can check the status page, see release notes, create a support ticket. Let us know how we can support. And then finally, as I wrap this up let us know what you think.
+
+If there's a part of the product we're doing really well. Grab a screenshot and write us a note. There's something we can improve. We want to hear from you.
+
+So definitely just fill this out add a screenshot that helps us know what you're talking about. And then if you'd like us to connect with you. You. can check this box.
+
+As well. And so with that, you have a full tour of the dbt cloud UI.
+
+--- Script 9 ----------------------------------------------------
+C4-L2-what are models-[Updated Apr-2024]
+
+In analytics, the process of modeling is the shaping of your data between raw data all the way up through your final transformed data.
+
+Now typically, data engineers are responsible for building the tables that represent your source data, and then on top of that, building the tables and the views that transform that data step by step, eventually building out the final tables that the BI tools can query to drive insights for your organization.
+
+In DBT, though, models are just SQL select statements inside of your DBT project, and each of these represent one modular
+
+piece of logic that will slowly take that raw data and build it into the final transformed data that you need.
+
+Each of these transformations are gonna live inside of SQL files written and stored in your DBT project inside of the models folder.
+
+Now a good assumption to have early on is that each model will map one to one with either a table or a view inside of your actual data warehouse.
+
+Now there will be some different materializations that we're gonna
+
+cover later where this is not necessarily true, but this is a good assumption to have right now when you're just getting started.
+
+And that's what's just great about DBT is that you don't necessarily need to know the DDL or the DML that's necessary to build something as a table or to build something as a view. You simply just configure either at the top of your SQL file or at a separate YAML file how you want any individual model to be built. Ultimately, this allows you to focus on writing great business logic inside of your SQL files and then let DBT take care of all the DDL and the DML that's needed to materialize items inside of your data warehouse.
+
+--- Script 10 ----------------------------------------------------
+C4-L3-build your first model demo-[Updated Apr 9 2024]
+
+Well, it's time to create our very first model over here inside of dbt cloud. But before we do that, I wanna show you a query that I have over here in Snowflake so we can examine what it's doing and take a look at its result set.
+
+We'll step over here into Snowflake, and this is the query I've been talking about.
+
+You can see here we've got a couple of CTEs. One's called customers. Another one's called orders. We've got another one here called customer orders. And you can start to see that we're doing some pretty basic things.
+
+A little bit of field name cleanup and we're pulling directly out of our raw database, a Jaffle Shop schema and our customers, object.
+
+Same thing here. We're pulling from orders, a little bit more, field cleanup. We start to bring some things together. We're looking for some mins and some max, some counting, and finally, we join things in and we pull this all out. Now my point right here so you can see what this looks like inside of Snowflake. And if I go ahead and I execute this particular query, I want you to be able to look at the result set.
+
+Take note of a few of the names here, Michael, Sean, Kathleen, and Jimmy, and you can see some of the fields that we have, that are the result set of this particular query. So of note, this works in Snowflake.
+
+Let's take this query. Let's bring it over into dbt Cloud, and we're gonna do a little bit of work in there. We're gonna make sure that it runs in dbt cloud, and then we're gonna see if we can actually create something here in Snowflake, but doing that over in dbt cloud. Let's go ahead and do that right now.
+
+I'll grab this particular query and let's move over to dbt cloud. And our main intention here is to save a file that has this query within it.
+
+Now within dbt cloud, inside of our models folder is where we're going to place the files where all of our different models are going to live. Now I wanna go ahead and create a file inside of this model's folder. And when I click on the ellipses, I'm actually not presented with any options. Now if that happens to you that you actually cannot create a file, what that indicates to you is you're on a protected branch, and that's my situation. If you look here at the top, I'm connected to our main branch, which is protected. It's read only. So for me to do work, for me to work on this new feature where I'm gonna add some code and do a little refactoring, I need to go ahead and create a branch.
+
+I'm just going to put my initials and call this start of modeling. You can do something similar.
+
+We'll get that branch created, and we're gonna take note up here at the top so we can get a visual indicator that indeed we are working in our branch. And all of a sudden, my read only indicator goes away. And if I come and hover right next to our models folder, sure enough, now I can create a file.
+
+Now this was called dim customers a moment ago. Let's just stay with that. We're gonna call this dim customers.
+
+And we need to add the SQL file extension to it, And you can see it's being created in the miles folder. You can see the path right here above. Let's create this.
+
+You start to see things happen. This a means it's an additional item added to the project. It's called dim customers. You can see its actual file name down here under models. Down here on my file navigation, I'm gonna select dim customers. That'll open a tab over here in my coding workspace.
+
+And in fact, I wanna paste my code right here.
+
+This is what I brought over from Snowflake. And before we jump in too much, a couple more indicators that you see here on the screen. We've got at least three places that are telling me this particular file has not been saved. The most obvious one is up here on the tab. You can see that it's sort of a teal. That means it has not been saved. Likewise, there's a dot next to its name on the file navigation.
+
+That also means it has not been saved. And then finally, big old save button over here has that teal color. Let's save this. That way we know our code has been saved.
+
+Now a lot of times when you're copying code from another system and bringing it into dbt cloud, we wanna make sure it still runs. Now I copied out a Snowflake, DBT Cloud, and this setup is targeting Snowflake. This should still work, but let's find out.
+
+We'll choose the preview command button and DBT will take this code, send it to Snowflake. Snowflake will return the result set and I'll get a display limited to a hundred rows of what the the result set is. And there are our names again, Michael, Sean, Kathleen, and Jimmy. So, you know, step number one, we've successfully brought over code, placed it inside of dbt cloud, and the code is working.
+
+Preview actually executed.
+
+Now to be frank with you, nothing was actually constructed inside of Snowflake.
+
+No model was built.
+
+This preview was just taking this sequel as written, taking a look at the customer's table in Snowflake, take a look at orders, doing these same CTEs, giving us the exact same result set.
+
+If we want to construct dim customers inside of our data warehouse, we're going to need to go ahead and issue a command. Now we issue our commands right down here in this bottom command bar, and you can see a toggle right here that, you know, raises and lowers this command tray to see even more details. But I'm gonna put in really our very first basic command and it's gonna be d b t space run. And I'm gonna press enter to execute that command. And at a high level, the run command is looking at my project and it's asking d b t what models are in this project.
+
+Find them. Now construct them in the target data warehouse.
+
+And what we can do is focus right in on the model in question, dim customers. These other two models came over automatically through just the setup of our project. More on these a little bit later, but let's see what's going on with dim customers and I'm gonna expand it right here using this toggle.
+
+And I like the details. I'm sure you do as well. This summary at least tells us it looks like a view was but let's get into the details and find out why and where.
+
+Well, the why behind it is it appears that our code that started with this CTE with customers has been wrapped inside of some DDL. This particular command was a create or replace view and it placed it in the analytics database under my schema and it's now called dim customers.
+
+Now I can't help but wonder, is it really there inside of Snowflake? Because this starts to this should create these items. So let's come over to Snowflake and take a look.
+
+I'm gonna need to get over into those databases.
+
+Let's make sure we're in the analytics database, and we are. And let's hunt down my schema.
+
+Well, here's the schema, d b t underscore d horner. And let's take a look and see what we have in here. We have one table, my first d b t model. That's one of the examples we talked about, but here's the ours that we've been working with.
+
+Indeed, dim customers has been created as a view inside of the analytics database inside of my schema. Now if it's truly there, of course, I should be able to, say, open up a worksheet tab and let's query out of that and see if we say see if we see our same, names. So open up a new worksheet and let's take a peek at what's inside that view.
+
+We'll execute on that.
+
+Take a look at our result set, and indeed, our view does exist and we're able to query right out of it, Michael, Sean, Kathleen, and Jimmy.
+
+So we've had great success. We've used dbt cloud, I'll call this, and we've run against all of our models and that resulted in the creation of a view.
+
+Now, we didn't really designate that we wanted a view. It's not here in our code, yet d b t did that for us. It happens to be a default behavior.
+
+But what if we would like to specifically say, d b t, I'd like to have a table constructed, not a view? Well, one of the ways we can do that is to make a change right here inside of the code that defines dim customers. So I'm gonna open up a little space here at the top, and I'm gonna come up here and I'm gonna add what's called a configuration.
+
+And configurations go inside of double KERDI braces. I'll just open up a little bit of room here. And we call a particular macro that's called config for configuration.
+
+And if we'll place in this configuration that we want to materialize our work, our code as a table, we can change that view behavior that's happening by default. And the way we do that is we type out materialized.
+
+And then what we want that material what we want the materialization to be. And in this case, in single quotes, we're gonna place table.
+
+Of course, we'll save our file, and then let's check to see if this works. I'm gonna come down here to the command line, and let's do our d v t run once more. And what do you think we're gonna do once we examine the details?
+
+Should we see some different DDL that's constructed for us? Let's see.
+
+Did you accurately predict it? Were you expecting to see create or replace and instead of view table?
+
+I hope so because that's exactly what we got. So in this case, DBT has taken our code and wrapped it not within a create or replace view, but within a create or replace table. Let's see what happened over here in Snowflake. Let's see how that was executed.
+
+Well, here's my schema right here, d b t underscore d horner. Let's take a look at our views.
+
+Dim customers is no longer in Snowflake as a view.
+
+However, under tables, here is dim customers existing as a table.
+
+So let's collapse this command tray.
+
+And, you know, I'm thinking you might be wondering why is it that every single time I keep running all my models? Is there not a way that we could run just the one model in question?
+
+And it is possible. We'll come right down here to our command tray. It's still a dbt run, but we're gonna add some selection syntax. And in fact, the syntax is dash dash select space. And if you'll provide the actual model name, then when you do a d b t run, instead of running all of the models that are in the project, will only run the one model that you specify right here on this command line.
+
+I'll press enter. Let's see how this acts.
+
+Wonderful. We didn't get all of our extra models that were part of the example. Instead, we only constructed dim customers. If I open this up, I look at the details, and you'll see our command is still the same, create or replace transient table in the same location with the same name with the same code.
+
+So there you have it. We've created our very first model inside of dbt.
+
+We first created it as a view in Snowflake, and then we explicitly materialized as a table and verified that in Snowflake. And we've even learned how to not only run all the models in our project, but how to run specifically certain targeted models by using the selector. So we're in a great place. Well done.
+
+We'll catch you in the next video.
+
+--- Script 11 ----------------------------------------------------
+C4-L4-what is modularity explainer
+
+Just built our first model called dim customers.
+
+Let's revisit the query that we used to build that.
+
+We had multiple CTEs. Let's go through each of them.
+
+First CTE, took our underlying customer's data and we reshaped it into what we want it to look like. Did the same thing for orders where we reshaped orders.
+
+Then in the third CTE, customer orders, we aggregated things, based on the business logic that we decided on. And then finally, we performed a join where we joined that data together with customers to create our final data artifact. This works, and it serves our needs. But we're gonna pause there and think about something a little more tangible and then revisit how we might do that differently.
+
+Let's say we're building a car. One way to build a car would be to get a bunch of metal in a room, get a bunch of plastic in a room, get a bunch of wiring in a room, and then take all those pieces and bend them, meld them on the fly to build that final, vehicle.
+
+We know that's not how cars are built. Cars are built by building the individual parts first and then assembling all these into the final product.
+
+We can call this modular thinking or modularity, and we can do the same thing in analytics.
+
+So let's rethink that query we looked at a moment ago. We saw we were doing a lot of things in this query.
+
+Instead of doing this all in one model, we're gonna break this into three separate models.
+
+So our first model, we're gonna call stage customers.
+
+And what stage customers' sole responsibility to do is to take that underlying data and shape it into what we want it to look like so we can use it in any downstream models.
+
+So that's stage customers.
+
+We'll similarly stage orders and call that a model of stage orders, and that's where we'll shape orders into what we want it to look like. So that's two of the three models. The third and final model is we're gonna refactor dim customers to select from those two models that we just built, so that we can build that final dim customers data artifact that our BI tool can use.
+
+So what this allows us to do is we're assembling that final model using different parts. We have stage customers, we have stage orders, and we're building that, shaping that over multiple steps into that final data artifact.
+
+What this also allows us to do is we can reuse stage customers and we can reuse stage orders in other models. So we're not repeating that logic in another really long select statement, long SQL query.
+
+So what this allows us to do, thinking like this, it allows us to modularize how we build data products much like other engineers and other fields will build machinery, build hardware, or build applications. We can do that in analytics by thinking like this.
+
+--- Script 12 ----------------------------------------------------
+C4-L5-modularity and ref function demo
+
+We've discussed this whole idea of modularity, and it's time to apply it to our project. We've previously said that we're gonna take dim customers, and we're gonna break it into three different models.
+
+The approach is that we're gonna take this logic right here, all about customers, where we're selecting the ID, renaming it, and then two more fields. We're gonna put that into a model of its own.
+
+And then we're also gonna take the idea right here about orders, and we're gonna put orders in a model of its own. So let's go ahead and see how that's done. We're still gonna place these models inside of our models folder. So let's go ahead and create a file, and we're gonna make a spot for customers. Now, since this is staging, let's call this stage customers.
+
+We're gonna add the SQL file extension just as before. We'll go ahead and we're gonna create this file.
+
+Now, it's empty.
+
+Let's use this section as our starting point. I'm gonna go ahead and pull this CTE out, I'm gonna place it over here in stage customers.
+
+Let's place it in here. We have the beginnings of a CTE. We're going to have to end it here and then let's pull everything out of this model right here at the end.
+
+Alright. Let's save that.
+
+We have created our very first staging model. It's all about customers. We're taking care of our work here, taking care of a little light refactorization.
+
+Now let's make sure it works. We can use the preview button.
+
+Let's select that, and we should see if we get our three fields as expected.
+
+Wonderful.
+
+Customer ID, first name, last name. This particular model is working.
+
+Now, let's come back and do the same thing with this other logic that's down here that's all about orders.
+
+We'll go ahead and follow our same procedure. This time, I'll go ahead and let's grab this information that we're going to use this CTE. We'll pull that out and let's place yet another new file inside of our models folder. This one will be staging, but for orders.
+
+We'll place our SQL in here and because we want to CTE, let's clean things up a bit and then we'll pull everything out of our CTE now that this model's built.
+
+We'll save that.
+
+And now we have our second staging model stage orders that's all built.
+
+Well, stepping back over here to dim customers, the rest of our logic is still very useful to us. This is where we're doing our joins that we discussed last time, and we're still relying upon orders and customers in building out the rest of this logic. So the idea here is going to be, let's leverage the fact that these two models, these staging models have been built, and let's leverage that all this work has been done and pull that right in to our dim customers model right up here at the top. Let me show you how that's done.
+
+We still have a CTE that we're building. Let's go ahead and get that going.
+
+We'll open ourselves up a little bit of space here.
+
+We've already done all the work. So let's bring in that work that's been materialized in our warehouse as stage customers, where we can select everything in from where are we selecting.
+
+You know, in dbt, we have a very important function, and it's called the ref function. And this function allows us to go and pull information from a model that's been materialized in our warehouse and to create dependencies. We're going to enclose this ref function inside of double curly braces.
+
+And then we're going to send the ref function a parameter inside of single quotes. And the parameter is the name of the model that we want to be used. So in this case, stage customers.
+
+Get ourselves a little space here just for readability.
+
+Now I can't quite show you yet how this will work because we've got to pull in information about our orders. So let's go ahead and build now a second CTE orders.
+
+Let's clean up some of our previous cutting and pasting here and we'll do the same thing.
+
+We're going to select everything out of our state orders CTE, but we're gonna do the same thing with the ref function. So let's build that again.
+
+Remember, it's the name of our model.
+
+Now I can leverage the work that we've done inside of this particular model in advance. We just bring it all in. I don't have to do the logic here. Let's look quick. Looks like I'm missing a comma on this CTE. We'll make sure everything is gonna run here. We'll clean some things up, and I'm gonna go ahead and I'm gonna save.
+
+We've set up that we can reference right here in dim customers whatever has been materialized in our database with the work that we've done in stage customers and the work that we've done in stage orders. We've brought them in as CTEs customers and orders, which then lets the rest of our query run because we are using orders and we're using customers.
+
+Now, before I actually run this, I wanna introduce you to this compile command button.
+
+I'm gonna go ahead and click that. I wanna show you how each of these ref macros actually resolve themselves in what's gonna be submitted to the data warehouse.
+
+You'll notice up here at the top line nine, we're referencing stage customers. We're building dependencies there. But what actually gets submitted to the data warehouse?
+
+This resolves down here to my database, my schema dbt dehorner, and then the actual model is going to be built STG customers. Now, this is very powerful because we're taking this code and it's resolving specifically to me in my development environment. That means you could take this code and it would resolve to your schema yet the same model. This allows us to share code and to work on different items and yet still be in our development environment. Likewise, you'll see stage orders, resolves to my schema, and again the model, s t g orders. This is where Ref is doing a lot of work for us, not only building dependencies, but allowing us to work in our own development environments.
+
+Now at this point, we haven't actually created anything in our data warehouse. We've used the preview command button, but that allowed us to look at the result set, but didn't materialize anything. Likewise, with compile, we could examine the code and how it resolves, but nothing's built.
+
+In order to build these items, we need to come down here and we need to run a d b t run.
+
+But because we use the ref function, we're gonna have items build in dependency order. You're going to notice that the different items that get built are going to be in a sequence such as stage customers and stage orders are gonna need to be built before dim customers can be built because we created dependencies.
+
+So let's go ahead and run that right now and we'll examine the results.
+
+You'll start to see down here on the bottom how the different models start to get built. Notice stage customers and stage orders are getting built first.
+
+And then finally, dim customers. And then note my first dbt model and my second dbt model are from the examples that were brought in. We'll deal with those later. And if we come in here, stage customers, we come into the details tab.
+
+Let's go and pull that down.
+
+You'll see that stage customers was built as a view.
+
+Likewise, stage orders.
+
+We look at the details here.
+
+We'll see that was built as a view.
+
+And if you recall on dim customers, we had a config block in there, and that config block was all about building things as a table, and we see we're still creating or replacing the table.
+
+Let's go ahead and just to be sure, let's jump over to Snowflake. We'll likely have to reset or refresh.
+
+And let's take a look and see what's sitting inside of my tables and my views for my schema. And sure enough, dim customers, and then our two staging models, stage orders and stage customers.
+
+Wonderful. Everything's working. We've now created our three models out of our original dim customers model.
+
+Now something that's very powerful, you get a glimpse of it over here under this lineage peak, but let's come down here because I wanna give you a sneak peek at DBT docs. So So I'm going to run a dbt docs generate, and then use that to explore this whole idea of dependencies.
+
+Let's go and let this run, and then we'll jump over into those docs and take a look around.
+
+Our docs just finished generating. Let's bring the command bar down. Right up here, this icon for view docs, we're gonna select that, have a new tab. And we have a whole module on this documentation area. For right now though, let's focus on the bottom right where it says view lineage graph. I'm gonna select that, and we're gonna take a look here at what we've been building. We did our work with DIM customers, and we built a stage customers and a stage orders.
+
+So, ultimately, you can now see how we did apply modularity to our project. We now have building blocks that we can use for future models as we continue to build out our project.
+
+--- Script 13 ----------------------------------------------------
+C4-L6-quick history of modeling explainer
+
+If you've been working in analytics for a while, you've likely heard the term star schema or Kimbell Data Vault. Now these are all ways of thinking about how data should be organized within a database, and many of these methodologies were created when storage was very expensive and we had to reduce the redundancy in our data. These approaches are often grouped together into a concept that we'll call normalized modeling.
+
+Now over time, technology has continued
+
+to change, but we still have tremendous respect for these ways of thinking because they've shaped how analytics exist today.
+
+However, with this new technology, we can optimize for different things like human readability or for how fast we're going to be able to deliver a final table to our stakeholders.
+
+So for our course, we're actually going to approach things from a denormalized standpoint.
+
+You may have heard these as agile analytics or perhaps referred to as ad hoc analytics,
+
+where the goal is to build items quickly for the people that need them so that they can have access to the needed data in order to make decisions.
+
+All this to say that although we're going to approach this course with a denormalized viewpoint, when you go to build your own DBT project for your organization, you can still use star schema or or you can still use Data
+
+Vault. That's your view of how you want to build your database, and that's totally fine. And DBT is a tool that can do that. DBT does not lock you into this denormalized view of how data should be structured. It's just that that's the approach that we're gonna utilize for our course.
+
+--- Script 14 ----------------------------------------------------
+C4-L7-naming conventions explainer
+
+I'm gonna take a moment just to go over the naming conventions for some of the models that you'll see throughout this course.
+
+So the first of those is sources. Sources aren't actually models. They're ways of referencing the raw tables that exist in your data warehouse.
+
+The data there should be loaded in with some off the shelf tool like a Fivetran or Stitch or through some manual orchestration by your data team.
+
+Then there's staging models.
+
+Staging models should be built one to one with the underlying source tables.
+
+These are very light touch computations that just maybe rename a column or maybe do a quick conversion of a particular number so that the data is what what you want it to be. Maybe it's from like inches to feet or something like that.
+
+Then there's intermediate models.
+
+Intermediate models exist somewhere between staging and then the rest of your final tables.
+
+So you may want to hide your intermediate tables from final users and only let your data team see those. That may be something up to you. But these should always reference your staging models. It should never reference directly to your source tables because you wanna use the data that you've already transformed and shaped into the way that you want it to be.
+
+Then coming off of intermediate models, if you have them, that's where we start building things like a fact model. So a fact model is gonna be a pretty skinny table, very long table that represents things that are occurring or have already occurred. So that might be orders, events, clicks, things that are gonna keep happening over time.
+
+Then there's also dimension models, which are going to represent things that exist or things that are, like a person, place, or thing. So these are typically gonna be like customers, users, things that aren't gonna change that much but may change a little bit, like an email might change. That would be a good example of a dimension model.
+
+So now if we look at a quick image of all this together, this is the DAG for the project that we're building towards. On the left side, you will see in green, those are our sources and we're gonna configure those in a later module, but those are our sources.
+
+Building off of those, we see our staging models and those are going to shape the data just a little bit to make it look as we want it to look.
+
+Building off that those staging models, we see that we have a fact orders model where we are bringing together some data to represent our orders, and then we can maybe query that with the BI tool. And then finally, we're actually reusing orders to build into a final dim customers model, and that's also bringing data from our stage customers model. So by building modularly like this, we can reuse things as we need and then just to really clarify fact versus dimension.
+
+Here we have a fact table called orders and that's something that's happening over time. So every time a single customer does another order or maybe a subscription kicks off, another purchase, we're going to have another row in that table for orders. That's a fact table. Then for dim customers, that's a dimension table, because customers, once they're once they're once they exist, their entity isn't really gonna change. But they may have a changing email address or changing phone number or maybe somebody changes their last name for some reason.
+
+But in summary, those are the five naming conventions that you'll see throughout this course. Again, they are sources, staging, intermediate, fact, and dimension.
+
+--- Script 15 ----------------------------------------------------
+C4-L8-reorganize your project demo
+
+So let's go ahead and start organizing our project in a way that makes sense for our business.
+
+Now one of the first things that we really should do is remove our example directory.
+
+It's only here so that all of us would understand how models can be structured within dbt. But for right now, let's go ahead and remove it. And we'll come over to the ellipses right next to the model directory itself example, and I'll come down and I'm going to delete that specific folder.
+
+And now to get even more organized, cause imagine as this model is starts to grow, our models folder could get very full. So let's add a couple of additional subfolders to keep things even further divided so that we can find things when we need them. I'm gonna set up a Marts folder.
+
+We can put our end of the pipeline consumables, and I wanna set up a staging folder.
+
+And likely you can already see where I'm going, but, you know, I don't wanna move things just quite yet. I'm going to further subdivide Marts into a business unit, in this case, marketing, and I'm going to be placing my customer information in there.
+
+So I've got now a deeper folder under Marts named marketing, and, you know, I'm gonna continue on that theme for staging.
+
+Let's call out that these particular staging models are all about Jaffle Shop. So I'm gonna go ahead and add a Jaffle Shop folder as well.
+
+At this point, our organization becomes pretty straightforward. We can begin to drag and drop things. I'm gonna put dim customers here inside of our marketing folder. You'll see it appear right there. And likewise, both of these staging models, I'm gonna place inside of the Jaffle Shop staging folder that we have. If I open this up, you'll be able to see how we've got things nice and organized so that we can find these model definitions in the future.
+
+Now you know this structure is going to do more for us than just help organize the mind of the developer.
+
+We've actually put into place through these subfolders kind of the opportunity to really target some of our project, configurations.
+
+Remember that whole, top of dim customers where right up here we said we want this specific model to be materialized as a table. Now that's wonderful and it works, and it was a great place to start. But could you imagine if we had a command that we could say everything inside of our marts folder would be materialized as a table. There could be many, many models all nested under Marts that we all want to be tables. Wouldn't it be nice if we could have more of a project level configuration that we could set up for table instead of needing in each and every model to materialize and call out that this every single model should be a table. Well, there is a way to do that. Let's talk about that right now.
+
+Let's come over here to our navigation and come to the bottom. It's on the bottom of my screen, but there's a dbt project YAML file. I'm gonna select that. It'll load up in my IDE so we can get into this. We're gonna focus on just a couple of key areas here. First, let me call out line five. Notice on line five, our project inside of this YAML file is named the string my new project.
+
+Actually, I'm gonna change that here in just a minute, but take note of it for right now.
+
+Let's scroll down though a little bit, and we're gonna come down to a section here where using the name My New Project that we had up above on line five, we have the opportunity to call out materializations based on folders.
+
+Remember that example folder that we had? We deleted it. It's no longer really a part of our project, but that's what this particular file was already stood up to do. This was calling out that anything in the example folder, unless otherwise specified, would be materialized as a view. Now view happens to be our default materialization, so it's somewhat redundant to place it here, but it is extremely clear. Well, let's change this for us a little bit. Can you imagine if we did something like this?
+
+That everything that happens to be in our marts folder should be materialized instead as a table.
+
+That would be a great way for us to set up where as there are tens or even hundreds of models under March, that they would all be materialized as a table per this configuration.
+
+Now I have to admit, I'm not entirely sure I like the name my new project that we're utilizing down here, And I want to update this, but to be able to do it, we first need to come back up here to where this name configuration is called out, and let's change this to our particular project, Jaffle Shop.
+
+Take a quick note here, though, that the only allowed characters for these names are lowercase letters and underscores. So be sure when you type this, that it's chapel underscore shop. Now that we've clear set up that configuration for the name, we'll need to leverage it right down here.
+
+So when we're constructing models out of our Jaffle shop and we're looking in specific folders, Marts will now be materialized as a table. You know, let's actually go for a little bit more clarity, and we'll line up again with our Marts folder, and let's put here staging.
+
+Alright.
+
+And let's set this up that everything under staging materializes as a view. Again, we're just being clear, even though view is the default materialization.
+
+Now let's go over here to dim customers.
+
+We should no longer need this particular configuration. So I'm removing that and I'm saving that, but I really should check. Let's make sure that I'm getting the intended behavior. So let's come down here and I'll do a dbt run. And we've done a lot of work. Remember, we've removed the examples folder, so none of those models should show when I press enter right now. But we do still have our three models, stage all about customers, stage all about orders, and then dim customers.
+
+Let's see if that appears.
+
+We should see our staging models built first and they are.
+
+And then finally, dim customers is constructed. But let's take a look and make sure these both right here should be views, but dim customers should still be constructed as a table. Let's verify that all of this is happening as expected.
+
+Come to the details on customers.
+
+We see create or replace a view. Wonderful.
+
+Let's come to our stage orders. We'll look under our details, create or replace view. That's exactly what we were expecting. Let's come to dim customers and see what we find. Again, we'll come to details.
+
+Create or replace a transient table. That's exactly what we configured in our d b t project yaml file.
+
+So again, a quick recap. We utilized our dbt project yaml file, and we came down into the models configuration section of it. And for our project, Jaffle Shop, we were able to set project level configurations for our materialization strategy. And we use our folders that we imposed here for organization to be able to make it a very straightforward process. So we're in a very, very good place. We've actually accomplished quite a lot here through our folder structure, and we've made it very apparent what we want to happen. And the people that are working in the project can also find the models that they are needing to work with.
+
+Frankly, I guess you could say we have a self describing project, which is always beneficial.
+
+Now, let's go ahead and before we end this lesson, take a look up here at all of the changes that we've been doing. You can kinda see this up here in our version control section.
+
+Each of the items that we've been working on have been really kind of listing here one by one. We've added a Dim customers file. We've added these staging files. We've modified the m here. We've modified our project yaml file, and we've deleted these particular files completely out of our project.
+
+All is well. All is working well. But you know what? I think it is time to commit our work. So let's go ahead and commit, and we'll add a message here, and we'll have a great place to to really walk off to our next lesson.
+
+We'll commit those changes.
+
+That'll ensure that all of this work is indeed a part of my branch in my git repository, and I'm ready to continue my work.
+
+--- Script 16 ----------------------------------------------------
+C5-L2-what are sources explainer
+
+In your analytics engineering workflow. You're always going to start with raw data in tables that is somehow brought into your warehouse or data platform through whatever means necessary. And so let's called those raw tables, let's just call those sources for now and consider this. In our models.
+
+So far, we've been referring to those sources using a direct string, like raw.stripe.Payments. And so that works. That's how we reference database objects. However, consider what happens if we reconfigure our EL tools to instead put that in a different schema or change the name slightly to follow our style guide.
+
+Then wherever you have referenced those raw tables in your models, you now have to swap that out manually, and that can be super tedious and eat up a lot of time where you could otherwise be doing something more valuable for your team. So this is where sources in dbt come into play. Sources in dbt allow you to document those raw tables that have been brought in by your EL tool and put those in a YAML file where you referenced the database there in the schema, and then the string of their name. You can even add aliases to point to each particular table in that YAML file.
+
+Then in your models, instead of writing something like raw.stripe.payment, we use what's called the source function. This works a lot like the ref function that you learned about with models. So we might pass something like {{ source('stripe','payments') }}, and then that is creating a direct reference to that YAML file that we created earlier.
+
+And when we run dbt compile, or we compile our code, dbt is going to look at that YAML file and then replace that source function with the direct table reference. So if someone I'm working on the EL part of your pipeline changes something slightly, you can go into the YAML file, tweak it real quick, and then everything is back up. The other benefit of sources is that they will now show up in your lineage before configuring sources. Oh, you have our blue nodes in your DAG.
+
+And so with sources, you now have green nodes along the left side, that show you the full orchestration of data transformation from raw data, all the way up through those final fact/dim models. So all in all sources give you really two great superpowers. One of them is, uh, being able to configure your sources in one place and then make tiny changes there that persist into the rest of your project. And then also being able to see at a high level, the raw data that is powering all the modeling that you're doing with dbt.
+
+--- Script 17 ----------------------------------------------------
+C5-L3-configure select from sources demo
+
+We've just learned about sources, and we are going to add them to a project to take advantage of the benefits and features it provides. As a recap, we've created three models, two staging models, the staging JAFFL shop customers model that's doing some light transformations, the staging JAFEL shop orders model that's also doing light transformations, and the dead customized model that's doing a few things.
+
+When we look at the lineage, we can see the three models, but we are not seeing the original sources that the staging these two staging models are referring to.
+
+We can see this data is coming from rod dot jarfoshop dot orders.
+
+And when we go into Snowflake, we know there is a table or a view that it is pulling from. So if you look here, raw, shuffle shop, customers table, orders view. We would love this to be represented in the lineage.
+
+This is where sources come in. So how do we add sources so we can see this in our lineage?
+
+If you're not sure, always go to the documentation.
+
+Over here, this is how we add sources.
+
+It tells us that we can create a YAML file under our models folder.
+
+So let's do exactly that.
+
+In DDT, we use a convention where we use underscore the name of the source that you are creating to underscore sources yml.
+
+Great.
+
+And if you're never sure, you can come see our style guide over here.
+
+Now that this has been created, the YAML is going to be of this format.
+
+I'm just gonna go ahead this version.
+
+Always two.
+
+Then you declare sources, and it's helping you over here the name. So the name is what you want the source to be called. So we'll call it JAFEL shop.
+
+Then you have to clear database, and the database that we're getting the table from is raw as we saw in Snowflake.
+
+There's an optional option to have a schema. If you do not explicitly name the schema, DBT will use the name. So let's just be explicit about it.
+
+And then the next thing is to get the name of the tables. So we realize there are two tables that we're using. One is customers, and the other one is orders.
+
+That was quite a bit of typing.
+
+That worked, hopefully.
+
+So let's save that.
+
+And that was successful because you could already see the lineage showing up over here.
+
+Now can we see the lineage here? Still can't see the lineage. This is because we have not added the sources anchor. So I'm gonna go into my stage models over here and replace this hard coded table reference with our source function.
+
+So, again, go to our documentation, and it shows you how to do that.
+
+Gives you an example of how you do that from replace this with the source macro.
+
+So double curly brace, source.
+
+Open that. The name of the source was Jafo shop, and the table that we want, we are in the customer staging model. So we say customers, then we save that.
+
+And now you can see that we can see our Jafo shop customer source. Great.
+
+Do the same thing in orders. If you are in dbt cloud, you can use the magic function shortcut underscore underscore source. Type it in. It fills in some templates for you, and you can type the name of the source and then the object name, which for this one is orders.
+
+You save that.
+
+See that our lineage is showing.
+
+Just out of curiosity, if we compile the code, we can still see that DBT is generating the raw SQL that we need.
+
+And so this is amazing because you are still getting the advantage of being able to specifically call your, tables or object names, but you've made it much more modular so that in the case that you need to change your database name in the future, you just have to make the change over here, and it will be reflected updated across your project.
+
+So that's it. Sources, try it out, and let's keep on maturing and building our projects.
+
+--- Script 18 ----------------------------------------------------
+C5-L4-source freshness demo
+
+We have declared our sources, and we're able to use the sources function to help define our lineage in our DAG.
+
+Let's see what else we can do now that we have our sources declared.
+
+In our docs, we also see that we can calculate the freshness of our source data. Let's read a little bit more about that.
+
+To do this, we need to add a freshness block and a loaded at field in our table.
+
+And this is what the syntax looks like.
+
+I would like to understand what these things mean, under freshness, what is count, what is period looks like, some time. Are those the only options? And then what is, the requirements of the lead polluted at field? This is where our docs are useful.
+
+I go to my docs.
+
+Let me search for freshness.
+
+There we go.
+
+And, again, we have the templates of the schema.
+
+Let's see if we can find okay. Loaded at, a column name or expression that returns a time stamp indicating freshness.
+
+K. So it seems we need to have a column in our data that is a time stamp.
+
+And then count, okay, positive number, integer for the number of periods where a data source is considered fresh. And then period, it can be minute, hour, or day. So I understand what the expectations are.
+
+Let's see which field in our data we can apply this to.
+
+So in Snowflake, when we go to raw, let's check out our objects, JAFL shop.
+
+So customers.
+
+When we look at our columns, we do not have any column that is a time stamp type. Okay.
+
+What about orders?
+
+Okay. We do. So we can apply this to our orders object.
+
+Let's go back and let's copy this.
+
+Alright.
+
+Go back here under orders.
+
+Put it in. I remember we needed to add a loaded at field.
+
+So let's grab that.
+
+Wonder why they're doing this also at the top.
+
+Let's try this first.
+
+Okay. Let's save.
+
+And now to apply this, let's see.
+
+We can use the dbt source freshness command. Alright.
+
+So dbt source freshness.
+
+It failed on orders.
+
+Let's see why it did that.
+
+So telling us that it's an error. Let's read our error declaration again.
+
+It's saying one as after a six hour period and error after a twelve hour period. Let's go into our column data, orders.
+
+It is currently seven thirty where I am, and this was last on the eighth. And this was last, refreshed or loaded at six thirty the previous day.
+
+So today is the ninth. This was loaded on the eighth. So according to what we've defined, this will definitely throw an error. Let us increase this, the counts to maybe twenty four hours. Save.
+
+Run this again, the v t source freshness.
+
+Okay. It's been successful, and it's throwing a warning.
+
+And it's basically telling us that it's been over six hours, and this is what we expected.
+
+You have the option to use other period fields. So I can make this one day.
+
+Or and I can make this a little bit higher.
+
+I can say twenty four hours.
+
+Let's see. This should not throw any error or give us any warning. So I don't wanna see any error. Everything should be green, and we see that is what happens.
+
+Great.
+
+But what was it that they were doing over here? What if I want to apply, this freshness to multiple objects or tables? Do I have to do it individually?
+
+It doesn't seem so. You can apply that at the schema level.
+
+So let's copy that.
+
+Let's copy this information that we have from here.
+
+And then under schema.
+
+Apply this.
+
+Okay.
+
+Let's save.
+
+We're getting something failing in customers.
+
+So let's look at that.
+
+And it's saying invalid identifier, e t l loaded at.
+
+This makes sense. It is telling us that there is no time stamp field called ETL loaded at that it can use on the customers table. And remember, we saw this when we looked at our data, our columns in Snowflake.
+
+So what do we do then? Does it mean that we can't apply this at a schema level?
+
+You still can. You just have to make a change to the specific table that you cannot apply this to.
+
+And if you check out your docs, you see that you can declare freshness under the specific table as null.
+
+So let's see that.
+
+Save.
+
+And we run this again, and we see that the configuration has only been applied to the orders, object and skipped the customers. So everything is successful.
+
+There's so much more that you can read about in the docs.
+
+Check out these related reference documents at the top. But, yes, that is source freshness.
+
+--- Script 19 ----------------------------------------------------
+C6-L2-why testing
+
+Alright.
+
+It's eight AM. I've got my coffee, got my water. I'm very excited to start the week working in data. Got my cool insulated mug. I am ready to go.
+
+Oh. And the head of sales just sent me a message about a dashboard being broken.
+
+Looks like there's some missing data. I'm gonna dig in here.
+
+Okay.
+
+Oh. Oh, dang. It looks like there's a missing payment method. I gotta fix this. Okay.
+
+Let's get into it. Alright. I'm gonna look in here and in there.
+
+Cool. I'm
+
+gonna fix it up.
+
+Okay. Alright. My dashboard is all fixed and working, and the head of sales is good to go. Everything's set.
+
+But now it's noon. Where did my morning go?
+
+Let's rewind a little bit. When I first built this dashboard, I made sure that all the transformations were working. I used my own select star queries to make sure that the data matched my own assertions.
+
+This has worked for four weeks. There were no issues.
+
+And then suddenly this morning, it broke.
+
+This is really frustrating. I
+
+just lost four hours of time. I was so excited to start working on some other projects.
+
+So this is where dbt is really helpful.
+
+dbt allows you to quickly and easily scale data tests across your project and your analytics workflow so that you have coverage and then you can find when things break before anyone else does.
+
+In development, you can use these data tests to make sure that as you're coding and writing SQL, it produces
+
+exactly what you want. And in production, you can set it up to alert you when a data test fails so that you can be the first person to figure out when something didn't go quite as planned, then you can fix it. Whatever dashboard might be broken, it can be fixed before anyone else would even notice.
+
+Data tests let you level up your analytics engineering workflow, particularly by giving you coverage so that you can trust your code and then everyone else can trust your data. Let's get into it.
+
+--- Script 20 ----------------------------------------------------
+C6-L3-what is testing explainer
+
+Data tests in analytics engineering are assertions that you have about your data. It's critical that these assertions are true so that whatever decisions are being made on those final models can be trusted.
+
+This gives people the confidence that the data that they're looking at is in fact reliable.
+
+You're probably already doing this in your data career.
+
+It might look like exporting a CSV, opening a file in Excel, and then creating maybe a check column to make sure that the values across multiple columns meet your assertions.
+
+It could be that after your table has materialized, you're running a a select distinct query against that to make sure that you've captured all of the payment methods in a particular column.
+
+It could also be just scrolling through the table to make sure that it meets your assertions and maybe trying to catch a little bug here or there.
+
+This data testing mindset is crucial to making sure that you can trust your data and stand behind its quality.
+
+However, it's particularly difficult to scale that across your project.
+
+You can't always download a CSV and then run a check against it manually. It's just not gonna work when you have hundreds of thousands of models.
+
+That's where data testing in dbt comes in.
+
+dbt's data tests are run with the command dbt test and that will run all of the data tests in your project against the latest materialization of your models.
+
+You can construct these data tests in development.
+
+So maybe you write a model and then you write a data test against that model. You can make sure that the transformation code does what you expect and that the underlying data fits your assertions at the time of development.
+
+This gives you as the dbt developer confidence to merge that into your main or master branch and then run that in production.
+
+And once you're running that code in production, the data test configuration or the writing of your data tests is in that same code base.
+
+You can continue to run those assertions as often as the models are being refreshed.
+
+This gives you the confidence that those models feeding important dashboards can be trusted for your team.
+
+So let's dive into some of the specifics.
+
+There are two main classifications of data tests in dbt.
+
+These are singular and generic.
+
+Singular data tests as the name implies are very specific and are applied to probably one maybe two models.
+
+They assert something really specific about the logic in that particular model.
+
+This is not something that you'd want to use across multiple models. We'll touch on that a little bit later.
+
+So singular data tests are something one off that you want to write really specifically for maybe a really important revenue dashboard.
+
+The other classification of data tests are generic data tests.
+
+These are the highly scalable types of data tests.
+
+Rather than writing the logic out, you're just actually writing a couple lines of YAML code and that applies a data test to a particular model or column.
+
+There are four types of generic data tests that come with dbt.
+
+These are unique, not null, accepted values, and relationships.
+
+These four are really easy to apply in your project right away.
+
+We recommend using unique and not null on your primary keys to make sure that you don't produce any breaking joints downstream or any fan outs as you try to build things downstream.
+
+So we have singular and generic as those two classifications of data tests. And in that generic data test column, you have these four with dbt, but there are packages that you can explore that have a ton of testing that a lot of different organizations use. And you can even write your own custom generic data tests. We're gonna need a little bit more learning around Jinja and macros to be able to touch on that, so we can't touch on that quite yet. But once you get your dbt fundamentals badge, check out our Jinja and Macros course at courses dot get dbt dot com.
+
+So we'll step back for a moment.
+
+Data testing in dbt allows you to take that same data testing mindset that you already have and scale it in development.
+
+Then you can also scale that in deployment so that you can trust your data on a daily and a weekly basis. You can focus on getting good sleep and then also building something net new rather than fixing something that you've just found out broke through a Slack message.
+
+--- Script 21 ----------------------------------------------------
+C6-L4-generic tests demo
+
+As we just heard, data testing is a critically important part of a healthy and mature dbt project.
+
+Without data testing, there's no way for analytics engineers to know that the datasets they deliver to their stakeholders are both correct and high quality.
+
+The most basic type of data tests in dbt are called generic tests.
+
+These data tests are simple, parameterized queries that can be applied broadly throughout your project to make assertions about your data products.
+
+dbt ships with four of these generic data tests, and these are an excellent place to start to familiarize yourself with how data testing in dbt works.
+
+The four data tests that are built into dbt are unique, not_null, accepted_values, and relationships.
+
+Unique asserts that every value in a column is, in fact, unique.
+
+Not_null asserts that every value in a column is not_null.
+
+Accepted_values asserts that every value in a column exists in a predefined list.
+
+Relationships asserts that every value in a column exists in the column of another table to maintain referential integrity.
+
+Let's take a look back at one of our models in our project, stg_jaffle_shop__customers
+
+And let's preview this.
+
+In the preview, you can see that there is an ID column referring to the customer ID.
+
+We would expect this column to be both unique and not_null because it represents an individual customer in our Jaffle Shop data.
+
+Let's formalize these assertions by adding a data test to this column.
+
+In order to do so, we're gonna create a new YAML file for this Jaffle Shop folder.
+
+So let's create a new file named stage Jaffle Shop dot yaml.
+
+Inside of here, I'm going to configure a models block to configure and describe the models in my project.
+
+And in particular, I am going to start with a stage customers model.
+
+Underneath the model, I can add a columns block.
+
+And under the columns block, I will define our ID column, which is the customer ID that we saw in the previous screen beneath that we can configure our data tests And here, I'm going to pass in the name of the two data tests that I would like to use, unique and not_null.
+
+I'll save this.
+
+Now, how do I tell if I configured my data test correctly?
+
+I'm going to do that by going to my command line and typing in dbt test dash dash select stage JAFFL shop customers, and I'll hit enter.
+
+In the run details, we'll be able to see that each of these data tests are configured as individual nodes, they'll run, and we can see that we have a successful run for each.
+
+Let's go into this not_null test and click on the details button.
+
+If we scroll down, we can actually see our compiled SQL query here.
+
+When we execute the dbt test command, dbt will translate these assertions into simple select SQL statements that can run against the warehouse.
+
+In dbt, data tests are configured to return the set of errors.
+
+For this example, to test whether the column is not_null, the data test will run this query that returns rows from this model where the id is null.
+
+If the query returns any rows to violate the assertion that our data test makes, then dbt is going to know to trigger the error message.
+
+Let's keep going here. Let's take a look at stage Jaffle Shop orders as well.
+
+In stage Jaffle Shop orders, we have our order ID which is our primary key. We're gonna wanna make the same assertions that we made on the customer ID field to make sure that this column is both unique and not_null.
+
+We can also see a status column here.
+
+Our stakeholders have told us to warn them that if we ever see a status that is not returned, completed, or any other status in this column including return pending. If we go back over to our stage. Jaffle shop. Yml file we can configure a new model block by adding to this list of models.
+
+We'll add a new name and then the name of the second staging model here. Stage Jaffle Shop orders.
+
+Then we'll add a new columns block, also named ID, and then we can add the data tests unique and not_null.
+
+We're also going to configure an accepted_values test on the status column.
+
+This data test accepts the values argument.
+
+Our list of values were shipped, completed, and returned pending.
+
+Let's save this, and now let's run our data tests for this model.
+
+This time we will write dbt test dash dash select stg_jaffle_shop__orders.
+
+This time, we'll see that we have all three of these tests here that are running, and it looks like we have an error on our accepted_values data test.
+
+Let's figure out why this data test is failing.
+
+We're going to take a look in the details, and here I can see my compiled query.
+
+Let's grab all of this, copy it, and paste it into a new statement tab. Then we'll hit preview to run this query.
+
+This will show us the values that we have missed within our list.
+
+It looks like we have two other values, returned and placed.
+
+If we add these to our accepted_values data test, it should pass this time.
+
+Then I'll save it.
+
+Then I'll rerun my last command, and we should expect to see three passing data tests here.
+
+Great.
+
+Now we have three passing data tests on our orders table.
+
+Perfect.
+
+--- Script 22 ----------------------------------------------------
+C6-L5-singular tests demo
+
+In our last video, we learned how to apply generic data tests to many models in our dbt project by declaring test blocks in our YAML files, like these. This is not the only way to apply data tests to our models. dbt also supports data
+
+testing of specific models with custom SQL scripts known as singular data tests. These are most useful when there is a specific attribute of a particular model that we want to make an assertion about, but it doesn't neatly fit into the basic types of data tests that dbt
+
+ships with.
+
+Let's take a look at our staged payments model here coming from our Stripe data. We can see that for each order, there can be multiple payments. For example, order_id 5 here has two payments, which are payment_id 5 and
+
+6. We want to be able to assert that the total order amount is positive for every order in our data.
+
+In order to make this assertion, I'm going to start by creating a new SQL file in our tests directory. So let's go to the test directory here and create a new file. I'm going to call this file assert_stg_payments_amount_is_positive.sql. This data test will be a SQL statement, so it needs to be a do SQL file, and let's hit create.
+
+The first thing we need to do is make a reference to the dbt model that we want to apply a
+
+data test to. So I'm going to do that with a select star from my ref, which is stg_stripe_payments. So I'm going to do that in my CTE at the top of this SQL file. This will be with payments as, and then select star from ref,
+
+and then the name of my model, which is stg_stripe__payment .
+
+Next, we need to remember that dbt data tests are configured to fail when the query written detects records that violate the assertion we're making about our data. If we want to assert that for every order in our stg_stripe__payment model, we have a positive total payment amount. We need to write a query that detects rows where we actually get a negative value for our total payment amount. So let's write that query.
+
+Let's say, select order_id and then we want a sum of the amount field, and let's name that total_amount. This will be from our CTE, named
+
+Payments. And then, we need to group by order_id. Finally, let's do a having total_amount is less than zero.
+
+So, we're detecting for orders where the total amount is negative, which violates our assertion that none of these should be negative. This is how dbt is going to know to apply this data test. Let's go ahead and run this data test on this model with our selection syntax as we have done previously. This will be dbt test --select and then our model name stg_stripe__payment.
+
+Great. So there's our data test. We can look at the details here. In the details, we can see the query that we wrote.
+
+which is asserting that all orders have a positive total amount. And you can see that this is wrapped in the standard counting behavior to understand if there are any violations of that assertion, like we saw in the generic data testing section as well.
+
+--- Script 23 ----------------------------------------------------
+C6-L6-testing sources demo
+
+
+
+In addition to testing the models in our project, we can also apply the dbt data testing framework directly to our source data.
+
+While applying data tests to our models helps us understand whether the assertions we make about our models are true, applying data tests directly to our sources can give us confidence that the raw data we're building on conforms to our expectations as well.
+
+Data tests on sources are configured exactly the same way that data tests are applied to models.
+
+We can do that either in the YAML configuration files where we declared the sources like here or in custom SQL files in our test directory in our project over here.
+
+For now I'm going to apply a couple primary key data tests in our source YAML file where we declared our Jaffle Shop data sources.
+
+So that's over here in src_jaffle_shop.yml
+
+On both the customers and the orders tables, I'm going to add the primary key data tests for the ID column in each as they should both be unique and not_null.
+
+Let's go ahead and add the columns block here underneath the customers table key.
+
+The name of that column that we want to test is ID.
+
+Then we want to add the data tests unique and not_null
+
+That's because the ID column is the primary key for this customer's table in our jaffle shop source.
+
+Let's do the same thing for our orders table.
+
+Let's actually just copy this right underneath the orders block here.
+
+Great. Now we have added both of our primary key data tests to our sources.
+
+To see if these data tests were applied correctly, let's pull up the command bar here.
+
+To try out these specific source data tests, I'm going to run the command dbt test dash dash select source to indicate that we're testing sources.
+
+Then I'll add a colon and then my source name, which in this case is jaffle_shop
+
+Let's hit enter here. And while that's running, just so you see the source name, it is on line four.
+
+Okay. So we see four data tests here, and they've all passed.
+
+Let's take one more look in the details here.
+
+This data test is making sure that our customer ID is not_null.
+
+We can click on the details and we can see that the SQL looks just as we would expect.
+
+The SQL is finding every record where the ID is null and counting the number of records there. It didn't find any so our not_null data test has passed on our source. Awesome.
+
+--- Script 24 ----------------------------------------------------
+C6-L7-dbt build command explainer
+
+
+
+At this point, we've created models in our dbt project.
+
+We've defined our sources, and we've added data tests to both our models and to our sources.
+
+We might have a project that looks something like this. Here's a sample tag where we can see in green our source notes, and
+
+in blue, we can see all the models that are built on top of our sources.
+
+We can see in this case, we have two staging models, one called stage jaffle shop orders and one called stage Jaffle Shop customers.
+
+Each staging model is built on top of a single source, and they contain the same level of detail.
+
+Then we have some downstream models as well.
+
+We've got a dim customers model, which is going to be joining these two staging models together. And then we might have an add customers model, which is going to be doing some aggregations on top of the dim customers model.
+
+So far, when we've been developing, we've been running the command dbt run to create all of our models and then the command dbt test to apply data test to all of our models and to apply
+
+data test to our sources.
+
+Maybe we added some selection syntax in there, but in general, we've been separating our commands of dbt run and dbt test.
+
+Now this has some pretty big implications for when we get into deployment later on, but I wanted to introduce a new way of running our commands by essentially combining dbt run and test together.
+
+This new way is going to be our dbt build command, which is what this section is all about.
+
+But for now, let's focus on dbt run and dbt test, and really understand what they're doing.
+
+Let's imagine as we're developing in the IDE, we first run the command dbt run to create all of our models in our warehouse.
+
+When that's done, we run the dbt test command to apply all of our data tests all based on our sample tag.
+
+So here's what would happen.
+
+It's going to run our first set of models, and in this case, that's our stage customers and stage orders models.
+
+Once those are complete, DBT is going to run the next set of models, and it'll continue doing that in DAG order.
+
+So it's going to run dim customers and then add customers, etcetera, until it runs all the models in your project.
+
+Once all those models have been run, which implies they've been created in your warehouse, then we're finally adding our data tests.
+
+If we have data tests on our sources, those would come first with the dbt test command because we're still going in DAG order.
+
+Then it's going to run data tests on our first set of models, and in this case, that's our staging models.
+
+Then it'll run data tests on dim customers, the next set, and it's going to continue in DAG order until it finishes.
+
+So what happens if a data test fails on an early model?
+
+Well, if a data test fails on stage customers, we have a problem because we already ran all of our models first.
+
+That downstream model, dim customers, and ad customers already got created
+
+and were already built on top of the staging model that had failing data.
+
+We can see that this could be a pretty big problem, especially if that failing record is due to maybe an issue with a primary key. We can't switch up the order of our commands here.
+
+We can't do a dbt test before a dbt run because the data test is going to apply data tests to the models as they exist in your warehouse, and we first have to run them in order to get them to exist in the warehouse. So we have a problem with this method.
+
+The new ish method of combining these commands is the dbt build command.
+
+Now it adds a couple of extra complexities, but right now we're going to focus on what it does to run our models and to perform our data tests.
+
+With the dbt build command, the difference is it's going to go in DAG order, but it's going to combine all of our commands, including dbt run and dbt test, and follow our models in DAG order.
+
+So the first thing it will do is apply data tests to our sources.
+
+Assuming those data tests pass, then it's going to run our first set of models and then apply data tests to our first set of models.
+
+Assuming everything is successful again at this point, it's going to do the same at the next layer.
+
+So it'll run this set of models, in this case, dim customers, and then it will apply data tests to dim customers, and then it's gonna run add customers, and then it'll apply data test to add customers,
+
+so on and so forth.
+
+So now what happens if a data test fails on an early model?
+
+This time, our downstream model is not going to run if our data test fails in an early stage customer's model because that happened before this downstream model ran. The data test failure would cause our job to halt. Now this is gonna be a pretty big deal when we get to deployment later on because we're going to be ensuring that we're not building our downstream marts on top of models that have failing data tests.
+
+So let's take a demo of this command in DBT cloud.
+
+So we can see dim customers here at the end of my lineage.
+
+If I were to do the dbt build command, the first thing it's going to do is run any data test that I have on these sources here, and then it's going to continue going layer by layer, running our models, and then applying data tests to them.
+
+It'll run these staging models and apply data tests on these staging models, and then it'll run fact orders and apply data tests on fact orders. And then it'll finally get to running and then running data tests on dim customers.
+
+So we can do this
+
+with the command dbt build and with our usual selection syntax.
+
+Or instead of writing all that out, I could just hit this drop down here that says build and select the build this model plus upstream and hit that.
+
+So let's do that and see what it comes up with.
+
+So we can see that it applies the usual selection syntax that we're used to. The plus sign indicating upstream ancestors and dim customers indicating the model that we wanna build after all of its upstream ancestors.
+
+And let's scan through the results here.
+
+So it did run a data test, two data tests actually, on all of my
+
+sources almost immediately.
+
+At the same time, it was able to run this view stage payments because stage payments does not depend on any sources that have data tests.
+
+After it ran data tests on my sources, it ran their corresponding staging models.
+
+It also ran and applied the data tests that are on those staging models even in accepted values and in not null and in relationships, all kinds of data tests.
+
+And then finally, it built fact orders and dim customers in my warehouse, but it didn't apply any data tests because I did not assign any. So just to make it extra clear, I want to show you what happens if we had a failing test in the stage orders model. So I'm going to navigate to my stage JaffleShop dot yaml file and I'm going to add a failing test to the order staging model.
+
+A data test that I know is going to fail is adding a unique data test to this status column.
+
+I know that this data test is gonna fail. So we saved this, and now let's rerun our command.
+
+Let's go back to Dim customers, click the build button, and let's click build this model plus upstream and take a look at what it does. Now I know that this is going to make the data test fail this time. And because we're using the build command, once this data test fails on my staging model, DBT will skip any downstream models, and it will halt the rest of my job or in this case the rest of my command.
+
+We can see here this failing data test, it returned five failing results and downstream of it were fact orders and dim customers.
+
+So those did not get run because there was a data test that failed upstream of those two models.
+
+So we can see why using the dbt build command can be a powerful way to ensure that we're both running and applying data tests to our models, but also making sure that we're not building downstream models on top of maybe some staging models or anything else upstream that has issues with failing data tests.
+
+--- Script 25 ----------------------------------------------------
+C7-L2-why is documentation important explainer
+
+Hi. My name is Beth Hipple. I'm a manager of technical instruction at dbt Labs. Let's dive into documentation.
+
+Think back to the last time you onboarded to an organization.
+
+Were you able to onboard quickly and contribute to your team? Or was it really challenging to find the answers to the questions that you had? If you were able to onboard quickly and you could find all the answers that you had, your team probably documented their workflows very well. But if it was really challenging and you had to constantly Slack message people, send emails, jump on Zoom calls, then you should probably consider leveling up your documentation on your team.
+
+In analytics, this is often a really important part. We want users and developers to be able to answer their own questions. Things like, what does this data mean? How is this field being calculated?
+
+The issue though, is that this documentation is often separated from the code itself.
+
+If you have to consider your time in developing the code and documenting the code, which one's going to win? Probably the development of the code. So dbt is considered this, and we've put the development process and the documentation process in the same interface.
+
+Documentation in dbt is done in yaml files right where we develop our models, so that we don't have to go to a separate repository.
+
+These then can be served up in a very user friendly interface, and it doesn't require the user to have any coding knowledge to be able to answer their own questions.
+
+So you don't have to answer another Slack message or email or jump on a Zoom call to answer those questions. They'll be able to self serve.
+
+This is how documentation can level up your workflow.
+
+--- Script 26 ----------------------------------------------------
+C7-L3-what is documentation explainer
+
+Let's dive into dbt's documentation.
+
+This documentation can be viewed by anybody with a read only license or a developer license in dbt cloud, And we can use this documentation to answer questions really quickly about our modeling or our sources, other aspects about our dbt project. And we can pass that information along to our stakeholders so they can answer questions for themselves very easily, like where is this data coming from? What does this field mean? How is it being calculated?
+
+There are a few ways that this is done. One of them is with our dbt DAG.
+
+In our documentation, we can see the dependencies between our models and our sources, and we can see exactly where source is coming from all the way through to our final models.
+
+And this is done not by typing in, hey, this model depends on this model and letting dbt know very manually. It's done based on the code that we've already written in our project using our ref macro and our source macro to build those dependencies between our models and building dependencies between source and a model.
+
+And all of this is being rendered in your documentation based off of that code. The other level of documentation is at the model level or the source level, being able to say, this is what this table is. This is what the grain of this table is, and sharing that information with the rest of your team. We can also document at the column level in a model or a source to indicate what a specific field means or to say this is how how this is being calculated.
+
+So we can answer questions like, what does order status mean? What does return pending mean? With our documentation, we can answer that question very easily.
+
+The way we document isn't to just log out of dbt and log into some other application. We're able to do that documentation right in dbt where we're developing our code.
+
+So we've written our SQL in dbt, and then we can go over to our yaml files and create that documentation for the model that we just created. So that way, we can give that information to others on our team, or we can do ourselves a favor and say, right as we've done this development work, what we've done, what does this field mean, what does this calculation here.
+
+And rather than in six months looking at your code and having no idea what it's doing.
+
+So it's really powerful to do all of this in the same place.
+
+And if you want to give any of your own input, it's really easy to do in DBT.
+
+--- Script 27 ----------------------------------------------------
+C7-L4-writing documentation and doc blocks demo
+
+Let's dive into writing documentation and Doc Blocks.
+
+So in my project, I have several models here that we've created previously. We have our Staged Jaffle Shop Customers and Staged Jaffle ShopOrders.
+
+I want to document both of these models, so let's go ahead and open up our schema YAML file here, and we've already done some work previously by adding tests to our YAML file.
+
+Here, this is where we're going to add our documentation as well. So again, this is the beauty of having our documentation written in the same place where we are writing our tests alongside our models.
+
+So here, we can add descriptions to our models underneath our model name. So in a YAML file, let's go ahead and create a new line under our model name. We'll add description here. When I'm at this level, the staging level, I think about my target audience and who I'm writing this documentation for.
+
+So here, probably, I'm writing this for other developers.
+
+So as a developer, what is some information that I might want to know about this model?
+
+Maybe the grain of the table would be helpful. So let's go ahead and put one unique customer per row.
+
+So let's similarly add a description to our staged Appleshop orders model, and we'll put one order per row. Not only can we add descriptions at the model level, but we can do so at the column level. So underneath customer ID, we'll add description.
+
+And here, customer ID is my primary key. So So that is important information for my developers to know. So we'll put primary key as our description.
+
+Similarly, under order ID, we'll add description and indicate that this is also the primary key.
+
+I also have my status column here. And so what might I want to know about my Status column? Well, I have all of these different values in my Status column, and so maybe I want to understand what each of these values mean.
+
+Just like we did before, we could add a description line underneath our status column, and I could type out a sentence describing each of my statuses.
+
+However, that's going to be a really long description in my YAML file, and so maybe I want a more organized way to write my documentation.
+
+This is where doc blocks come in. Doc blocks are written in separate markdown files in my project and referenced here in my YAML file.
+
+So in our Jaffle shop folder, let's go ahead and create another file, and we'll call this Jaffle shop docs.
+
+Md. So again, this is going to be a markdown file. So we'll create this.
+
+To start, I need to open up my doc block, and I do so with a curly bracket and a percent and the word docs. We need to give our doc block a name, so I'm going to call this order status.
+
+And then I need my percent sign here to close that out.
+
+Whenever I'm creating a doc block, I need to make sure that I also have my ending of the doc block. So in this case, we'll have percent curly percent again and the word end docs, and we'll close that out with another percent in a curly.
+
+So in between these two sets of curly brackets, we're going to add our documentation.
+
+I already have my documentation written out elsewhere, so I'm going to go ahead and just paste that in here.
+
+Excellent. So now I have a table where all of my statuses have a definition, a description.
+
+And so let's go ahead and save this, and down below I can see a preview of my markdown.
+
+So this is rendered correctly so I know that my syntax here is correct.
+
+Now I need to tell dbt to associate this documentation with my status column here in my yaml file.
+
+So where we have description underneath the status column, we're going to add a connection to that doc block. So here we'll do quotes, double curlies, the word doc, parentheses, and then our doc block name.
+
+Note that the name of our doc block, the name that we put here inside our doc macro, is going to be the name that we've given the doc block at the top. We can have multiple doc blocks per markdown file, so we need a way to indicate which specific doc block we are wanting to connect to our status.
+
+So we're not going to put the name of the file, rather the name of the doc block itself.
+
+So now dbt understands that my status column is going to be associated with the description that I have here in my markdown file.
+
+Let's go ahead and save this, and let's commit and sync our changes. So we added descriptions to stage jaffle shop customers and stage jaffle shop orders.
+
+So we've successfully added descriptions to both of our staging models and our columns.
+
+--- Script 28 ----------------------------------------------------
+C7-L5-documenting sources demo
+
+Let's add descriptions to our sources. So previously, we added documentation to our models and some columns in those models. We can also document at the source level. So let's pop into our sources.
+
+Yml file, and here we can document from one layer above our source tables at the source level. So here, JavaShop is our source name, and that is going to represent our database and our schema. So I'm going to indicate some information about my database my schema. So this is going to have a description again here, and this is going to be a clone of a Postgres application database.
+
+Perfect.
+
+So we have a description at the source level. We can also add descriptions at the individual source table level. So underneath customers here, we'll go ahead and add a description.
+
+And here, I'm going to indicate that this is raw customer data.
+
+It's important to add raw here because that indicates to all of my other developers that this is untransformed data. So let's go ahead and do the same thing under our orders table, and we'll say a raw orders data.
+
+Excellent. So not only can we document at the overall source level and the source table level, we can also document at the column level. So here, let's go ahead and add a column to our customer source in the YAML file. So here we'll put columns, name, and then ID.
+
+Note that I'm putting ID here and not customer ID.
+
+So if I look at my stage, JavaScript customers file, I can see that the original column was called ID, and we renamed that to customer ID. So in my YAML file, when I'm referencing that column, I need to make sure that it's the original source column.
+
+So here, we'll put a description, and here, our ID is going to be the primary key for customers data.
+
+Excellent. Let's go ahead and save our file here and commit and sync our changes. So we added descriptions to Jaffle shop sources.
+
+And so now we successfully added descriptions at the source level, at the source table level, and the column level in our sources.
+
+--- Script 29 ----------------------------------------------------
+C7-L6-generate and view documentation demo
+
+Let's dive into viewing the documentation we've added to our project. So a quick recap of what I already have in my project. So in my models directory, I have a staging folder. And here, I have two YAML files, one of which describes my sources and configures those, as well as my models where I have testing and documentation.
+
+Then I have my models here, Sage, Jappleshop customers and Sage, Jappleshop orders, as well as my Stripe folder and my Margs folder.
+
+So we've added a lot of things in our project, and now I'm ready to generate my documentation site. So the documentation that we've created in our project, we're going to be able to render that into a separate site that we can use to explore our project and to check on different aspects about our lineage and other elements. So let's go ahead and run this command, dbt docs generate.
+
+And here in dev, that's going to generate my documentation by parsing through my project, looking at all of my YAML files to find all of those description lines that we added, as well as looking in my data platform for my target tables to look at my data types for my columns and collect all of that information there.
+
+So now that we've run that command, at the top of my version control center, I have this little book. And now this is clickable. And so we can go ahead and open a new tab here with our documentation site.
+
+Let's take a look at some of the features here. In the bottom right hand corner, there's this little blue circle, and this is going to have my lineage for my project, my DAG.
+
+Here at the bottom, we have different filters that we could apply to this lineage.
+
+So just like how we can select specific resources in our commands when we're running our project, we can use the same syntax to select elements from our project here. So maybe I really just want to look at fact orders. I don't really care about the other stuff. So I'm going to say, let's look at everything that's upstream from fact orders and everything that is downstream.
+
+So here, we can type that out, update our graph, and the rest of the things that aren't a part of this data pipeline have gone away. You can imagine when you have a really large project, this functionality is really beneficial.
+
+Let's take a look at some of the other features of our Docs site. So if we go over here let me move this out of the way. We have our sources split out into JackleShop and Stripe. If I go into my sources JackleShop folder and I look at my customers model, we can see the descriptions that we've added here for our overall, table as well as descriptions for our column ID. We get some other information at the top here. We haven't talked about tags, but know that you can tag your sources and your models, and those would show up here for you, as well as other metadata about our source, specifically the size, when it was last modified, our row count, all of those elements here.
+
+If I look into my projects, I can see that I have three different things here, one of which being Jappleshop.
+
+This is going to have my models directory that's following a similar format to what we would see in our file explorer in dbt cloud. If I go into my staging folder and I look at Japel shop, let's take a look at our orders model.
+
+So here, staged Jappleshop orders, we see similar information at the top where, again, we don't have any tags, but we would see those here if we did, as well as some other information, the materialization of this model, the language that it's written in, and the relation. So my database schema and the name of my resource.
+
+We see the description that we added in our YAML file, one order per row. We also see the description for our order ID primary key. In our status column here, this looks a little wonky, but if I click into this, it shows me that whole table that we created in our markdown file. So we can see this displayed really nicely in our documentation site.
+
+Some additional information that we get are tests that we've put on our columns. So here the unique and not null test on our order ID, since that's our primary key, that is showing up here. And if I collapse this, we can see the accepted values test showing up here in our status column.
+
+Some other information that we get is what is referenced by this model.
+
+So what is downstream of staged Appleshop orders? So here, this model is being referenced by FactOrders, and if we toggle into Test, we can see all of the tests that are associated with this model.
+
+If we scroll down a little bit further, we see DependsOn. So what is upstream from this model? What does this model depend on? It depends on my order's source. So if I double click into this, this will bring me back to my order's source.
+
+If I scroll down to the bottom, we can see our code. So this is what we would find in dbt cloud in my SQL file for my model. And if I click compiled, this shows me exactly what is being sent to my data platform to create this model in the target schema.
+
+So all of this information here is available to anybody who has a developer license or a read only license in dbt and gives us rich information about our project.
+
+In the next section, we'll look at deployment, and we'll look at how documentation can get created during jobs, as well as some other ways that we can document and view our project with dbt explorer.
+
+--- Script 30 ----------------------------------------------------
+C8-L2-what is deployment explainer
+
+All right. Let's talk about deployment in dbt. We've referred to this a couple times throughout the course, but really want to give a clear definition here. So when you deploy your dbt project or put dbt into production, you are running a set of commands and dbt on a schedule to power your business.
+
+To give some context to that. So far we've only been working in development. I've been working on a development branch, maybe it's add customer model. I've also been working in development schema, which is dbt_kcoapman and then I've been running ad hoc, um, dbt run dbt test as I need them in development in the IDE.
+
+Deployment is going to be a little different deployment, has a dedicated production branch. And so that might be main or master. Usually it's one of those two, the default branch set by your get provider and then also in a dedicated production schema. So that should not be dbt_kcoapman.
+
+That should be something like dbt_prod or internally we just use the schema analytics. I think that's partly because it'll be like first alphabetically in the list of schemas. And that is what revenue, marketing, finance can all trust to be where they find the tables that they need to make decisions. And the third piece is.
+
+You get to choose which commands you want to run on a schedule it's not baked in that you only run dbt run, um, or the cadence isn't built in into this can only be run weekly. You have the opportunity to set a weekly cadence. I want to run dbt, run dbt tests. Um, and I can get him get a little bit more advanced in there with model selection, syntax.
+
+Um, but you can have that just run automatically whenever your business needs it to be. And so what that allows you to do is have production, be the single source of truth in that dedicated schema on that dedicated branch. And then in a separate development environment like we've been working in so far, I can tinker around. I can change things, break things, without breaking things in production that the rest of my company is relying on.
+
+And so stepping back a little bit, before we get into the nuances of deployment, it's going to happen on a dedicated branch. Usually your default branch. It's also going to happen in a dedicated production schema, like dbt_production. And then it is a set of commands that you decide to run on a schedule.
+
+So with that in the next couple of videos, we'll dive into some of the nuances there and the best practices for running dbt in production.","potentialAction":{"@type":"SeekToAction","target":"https://learn.getdbt.com/learn/course/dbt-fundamentals/deployment-30min/understanding-deployment?page=2&wtime={seek_to_second_number}","startOffset-input":"required name=seek_to_second_number"}}</script><script class="w-json-ld" type="application/ld+json" id="w-json-ldwistia_2346">{"@context":"http://schema.org/","@id":"https://fast.wistia.net/embed/iframe/g3yvcowvar","@type":"VideoObject","duration":"PT4M55S","name":"C8-L3-set up first dbt cloud job demo","thumbnailUrl":"https://embed-ssl.wistia.com/deliveries/3dbd5960ee6f9e2b83312070e93b150d.jpg?image_crop_resized=640x360","embedUrl":"https://fast.wistia.net/embed/iframe/g3yvcowvar","uploadDate":"2023-11-20T19:19:06.000Z","description":"a dbtproduction video","contentUrl":"https://embed-ssl.wistia.com/deliveries/a755cbe5eea510ed836465af128288c45daa5c82.m3u8","transcript":"At this point, you've likely created some models, configured your sources, set up your tests, and written your documentation for your project.
+
+Once you've done that in your developer interface, you're going to want to merge all that code into main so that the code you've worked on is in your main branch and will run when you run a job. You'll make sure to do that by clicking our get button on the top left.
+
+In this video, you'll learn how to run the code in your main branch on a schedule by creating and running your first dbt cloud job.
+
+I'm going to go to this menu up top and hit deploy, and then I'll click on environments.
+
+You'll notice that you and I both already have a development environment. This is built by default when you make a new DPC cloud project.
+
+I want to deploy my production code, and I want this environment to be for building my pipelines. So I'm going to create a new deployment environment, and I'll click this create environment button right here.
+
+You can see that this environment has already been automatically made as a deployment environment because you could only have one development environment, and we already had one. I want this environment to be for my production code, so I'll name this production.
+
+Down here, I can set my deployment type. Again, this deployment environment is not for general use, so I don't wanna select general. It's for building my production pipelines, so I'm selecting production.
+
+Down here is where I would select my dbt version. This is inherited from my dev environment. And if I wanted to, I could select only run on a custom branch. I don't want to select this because I want the code on my main branch to run.
+
+Further down, we have our deployment connection section. This is where we specify what data warehouse we're using. And even further down, we have our deployment credentials.
+
+I could enter something in username like mbaird, if that's my username to access Snowflake. In this case, though, I'd recommend using something else, like setting up a service account or a service user that specifically has permissions on your production schema or production database where you actually want to write your code. I'm going to keep this pretty simple and just write everything I have to the analytics schema.
+
+And I already have a production snowflake user called dbt prod. If you want this project to be something you would actually use in production, I would recommend creating those separate users. But if you're just learning dbt right now and you just want to practice, feel free to use whatever your personal credentials are down here.
+
+Okay. Great. I've entered my username and password. And now I can scroll up, and I can hit save.
+
+Now that I have my production environment made, I'll create a new job in my production environment.
+
+I'll go and hit this create job button.
+
+And now I'm given the option to make a deploy job or a continuous integration job. Because I want to run my code on a schedule and not run my code whenever a PR is submitted, I'm selecting deploy job.
+
+I'll give it a self explanatory name like daily job since I want this job to run on a daily schedule. The description here should describe what the job is. So I'll write production job that runs on daily cadence. Under environment, I'll make sure that I'm selecting the production environment that I just made.
+
+And further down here are my execution settings.
+
+This is where you can pass whatever dbt commands you'd like. So we could put something in here like dbt dbt run, dbt test, dbt seed, whatever it might be. In this case, I'm going to keep things simple and leave it as just dbt build, which does a lot of really great things for me. It will run and test all of my models in DAG order. Very helpful. Further down are some other commands you can select, like generate docs on run, which automatically generates documentation for when the job runs. And we also have run source freshness, which enables the dbt source freshness command as the first step of this job.
+
+I'm selecting both of these. Even further down, we can select our triggers. This is how we'll trigger the job. I want this job to run on a schedule, and not just when another job completes.
+
+So I'm going to select run on schedule. I want this job to run every day of the week. So every day of the week down here is already selected, and I want to set my timing to specific hours. Let's say that I want this job to run at nine every day.
+
+So I'll make sure to put nine.
+
+Make sure you're paying attention to your time zones. Great. Now that I've done all that, I can scroll up, and I can hit save. And I've just created a DBT cloud
+
+--- Script 31 ----------------------------------------------------
+C8-L4-review dbt cloud job demo
+
+In this video, I'm going to show you how to review your jobs. You can see all of the jobs you've run by going to the Deploy drop down menu up here and selecting Run History.
+
+Here, I have a list of all the jobs that I've run. If I click on one, I'll click on the first one, then I can see more details about what happened when the job was executed.
+
+We can take a look at some of the run steps here, and the first three are automatic for all jobs in dbtCloud.
+
+The first one is cloning the Git repository.
+
+By default, this will be your main branch. Next is connecting to your warehouse with whatever connection profile you specified in the environment this job is running in And last is invoking dbt deps, which will install all of your packages if you have any Next is everything that you specified.
+
+For example, I made sure to run a source freshness, which we can see failed and gave us a warning because we had two models without any fresh data.
+
+After that, it ran our dbt build, which we can see, was successful with one error.
+
+And that error was we failed an accepted values test. Clicking on any of these individual execution steps will allow us to see what happened in them.
+
+I clicked on my dbt build drop down menu. We can see that it built out again all of our models, tested all of our models, and we can also see exactly where it failed. In general, clicking on these logs is something that you're going to want to do anytime there's any unexpected failure that happens in your run. Down here, you can see that I invoked dbt docs generate.
+
+If I scroll up, we can see even more information about when this job ran. We can see how long this job spent in queue, the amount of time it took to run each individual step, and the total amount of time that this run took.
+
+We also have this really great lineage tab, which shows you your lineage, and this really great model timing tab, which will show you how long each model took to build. Models that take a very long time to build are potential warning signs that you need to refactor your project. Nothing here took too long to build, though, so I don't have too much to be worried about.
+
+If I can highlight down here, you see I just zoomed in on these sections here. I can move this little box around.
+
+I can elongate it, shorten it if I want to.
+
+And that way, you can make sure you're looking at whatever part of your project you wanna be looking at. If I click on the sources tab up here, this will take me to a site where I can see the source freshness of each of my sources. I can click on the drop down menus here, and I can see where I had some stale data. If I go back to just our overview, we can also see how our run was scheduled.
+
+Here it says trigger, and then it says triggered manually. That's because I triggered this job manually.
+
+We also have our commit SHA and the environment that this job ran in.
+
+I also have this button here that I can click to view the documentation that I generated on my run.
+
+If I go back to our model timing tab, if I highlight a model, I can click view and explore. Dbt explorer is an enterprise plan only feature that lets you generate and view the full picture of your project all in one place. I'll click this now.
+
+It brought us to the lineage for the model stage customers.
+
+That was the model I was hovering over.
+
+If I wanted to see how my jobs are running, I can go to this performance button right here. Now I can see how many times my models have been executed, the longest they've taken to execute, and my most failed models.
+
+--- Script 32 ----------------------------------------------------
+fun-c8-l5-dbt explorer overview
+
+At this point, you have a job running a production, building the models, running the tests, and generating the documentation that you built developing in dbt. The next thing I want to show you is a quick tour of dbt Explorer. You'll find this on the left hand side where you see the compass. And here is dbt Explorer.
+
+First thing I want to show you. My favorite part about dbt Explorer is the project lineage. This is the DAG that you built while working development. And so I can see the full lineage of my project.
+
+I can see sources here on the left. And then the downstream. Building of models all with dependencies, they're indicated by arrows. Another cool part of that is I can jump into lenses and actually jump into materialization type and it labels the materialization type on each of these.
+
+I can see the status base off the last run. Modeling layer. Was it staging or was it marts? And I can even see the test status there.
+
+Did the test pass, did they fail? Unknown. If there's no tests in place. We'll have the X here to go back to our homepage of Explorer.
+
+Few things over here, underneath project details. I can see performance and I can see my most executed models. Longest model executions. Most failed models.
+
+So it looks like my first dbt model failed a hundred percent of the time. So I might want to look at that. I scroll up. I can go to recommendations and at a very high level, I can see what's the test coverage and what is the documentation coverage of my project.
+
+I can then also see much more granular recommendations down here. Where I see. I'm missing a primary key tests on stage stripe payments. Also one in fact orders also one on dim customers, so I can jump into development and make those changes.
+
+If you want to dig into individual resources, you have three ways to get there. You can go to resources and look at models, sources, tests. You can go to file tree and actually navigate based off the file tree you built in development, or you can even go to database and look at the. underlying.
+
+database objects that a dbt is aware of or is constructing. So I could go into analytics and see. All the things that my project is building in production. I'm gonna go back to resources and let's take a look at models, sources, and tests.
+
+If I click on models. I can see all sorts of different things, just at a high level view. I can see my row count is a hundred here for dim_customers. Let's take a look at actually.
+
+stg_jaffle_shop_customers actually want to go there. And so immediately off the bat, I get one step up one step back. In terms of my lineage, it's nice to know where this is coming from and where it's going. If I want to change how far up and down that's going, I can click full lineage and then change my selectors here.
+
+I'm going to keep it simple and come back here though. I can see the description I wrote in documentation here, the tests, and that can see a few more details that are either in my dbt project or are pulled from my underlying data platform. If I scroll up and go to code, I can see the pure dbt code here, or I can see the pure compiled SQL here. Depending on who's viewing this, that could be particularly helpful.
+
+Then underneath the columns, I'll automatically see all the columns on the final output of this model. And I can see customer ID, first name, last name. I can see what tests are run on those. And then if you open this up, you can actually see column level lineage here.
+
+I can see upstream from stg_jaffle_shop_customers. The customer ID column is coming from the ID column on the jaffle_shop.customer source. And then that same column is being passed downstream to a dim customers.
+
+As it passed through, you'll see even these little markers, this was a rename of the same exact column there. And then we'll see this as a pass through of the same column name there. We saw some performance at a high level earlier. You can also see performance on the model level, so I can see the jobs that it's included in.
+
+I can see the last run execution time. I can see the time, count, tests, how those tests are doing and that I can even see recommendations on the model level. If there's anything I should improve to follow our best practices for dbt project structure. If I see a model that I want to change, I can even click this open in IDE button.
+
+And that will take me to the develop interface where I can open a branch, edit that model, make a commit and merge that into main. Let's take a look at sources. I'll see right here, all my sources at the source level, not the table level just yet. And I can see what is the status of those sources.
+
+I can click in. I can see the description that I wrote in development. I can click into actual source tables here. I get that same lineage in a very similar overview that we saw with models.
+
+I see a description here that I wrote in development. Some more details. And then I can go to columns. I get that same column level lineage here.
+
+I see that's being passed upstream, downstream. I can see status. And see the lineage there as well. I can even go to recommendations.
+
+It looks like I don't have any recommendations here at the moment. Final part. I want to show you is tests. You can see the different tests on each resource that you have as you build out your project.
+
+This will be quite a bit longer, hopefully if your data quality is top of mind. And so you even have the search bar here where I can look for something like. dim_customers and go find the model that I'm looking for. And while you're searching you can also.
+
+Filter based off what you're actually looking for, whether it's tests, sources, models, and these other resources that you'll learn about in a future advanced course. And so with that, I'll bring you back to the overview here. That is a quick tour of dbt Explorer.
+

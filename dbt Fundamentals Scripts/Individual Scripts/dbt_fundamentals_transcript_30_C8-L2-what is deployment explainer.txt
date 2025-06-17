@@ -1,0 +1,61 @@
+C8-L2-what is deployment explainer
+
+All right. Let's talk about deployment in dbt. We've referred to this a couple times throughout the course, but really want to give a clear definition here. So when you deploy your dbt project or put dbt into production, you are running a set of commands and dbt on a schedule to power your business.
+
+To give some context to that. So far we've only been working in development. I've been working on a development branch, maybe it's add customer model. I've also been working in development schema, which is dbt_kcoapman and then I've been running ad hoc, um, dbt run dbt test as I need them in development in the IDE.
+
+Deployment is going to be a little different deployment, has a dedicated production branch. And so that might be main or master. Usually it's one of those two, the default branch set by your get provider and then also in a dedicated production schema. So that should not be dbt_kcoapman.
+
+That should be something like dbt_prod or internally we just use the schema analytics. I think that's partly because it'll be like first alphabetically in the list of schemas. And that is what revenue, marketing, finance can all trust to be where they find the tables that they need to make decisions. And the third piece is.
+
+You get to choose which commands you want to run on a schedule it's not baked in that you only run dbt run, um, or the cadence isn't built in into this can only be run weekly. You have the opportunity to set a weekly cadence. I want to run dbt, run dbt tests. Um, and I can get him get a little bit more advanced in there with model selection, syntax.
+
+Um, but you can have that just run automatically whenever your business needs it to be. And so what that allows you to do is have production, be the single source of truth in that dedicated schema on that dedicated branch. And then in a separate development environment like we've been working in so far, I can tinker around. I can change things, break things, without breaking things in production that the rest of my company is relying on.
+
+And so stepping back a little bit, before we get into the nuances of deployment, it's going to happen on a dedicated branch. Usually your default branch. It's also going to happen in a dedicated production schema, like dbt_production. And then it is a set of commands that you decide to run on a schedule.
+
+So with that in the next couple of videos, we'll dive into some of the nuances there and the best practices for running dbt in production.","potentialAction":{"@type":"SeekToAction","target":"https://learn.getdbt.com/learn/course/dbt-fundamentals/deployment-30min/understanding-deployment?page=2&wtime={seek_to_second_number}","startOffset-input":"required name=seek_to_second_number"}}</script><script class="w-json-ld" type="application/ld+json" id="w-json-ldwistia_2346">{"@context":"http://schema.org/","@id":"https://fast.wistia.net/embed/iframe/g3yvcowvar","@type":"VideoObject","duration":"PT4M55S","name":"C8-L3-set up first dbt cloud job demo","thumbnailUrl":"https://embed-ssl.wistia.com/deliveries/3dbd5960ee6f9e2b83312070e93b150d.jpg?image_crop_resized=640x360","embedUrl":"https://fast.wistia.net/embed/iframe/g3yvcowvar","uploadDate":"2023-11-20T19:19:06.000Z","description":"a dbtproduction video","contentUrl":"https://embed-ssl.wistia.com/deliveries/a755cbe5eea510ed836465af128288c45daa5c82.m3u8","transcript":"At this point, you've likely created some models, configured your sources, set up your tests, and written your documentation for your project.
+
+Once you've done that in your developer interface, you're going to want to merge all that code into main so that the code you've worked on is in your main branch and will run when you run a job. You'll make sure to do that by clicking our get button on the top left.
+
+In this video, you'll learn how to run the code in your main branch on a schedule by creating and running your first dbt cloud job.
+
+I'm going to go to this menu up top and hit deploy, and then I'll click on environments.
+
+You'll notice that you and I both already have a development environment. This is built by default when you make a new DPC cloud project.
+
+I want to deploy my production code, and I want this environment to be for building my pipelines. So I'm going to create a new deployment environment, and I'll click this create environment button right here.
+
+You can see that this environment has already been automatically made as a deployment environment because you could only have one development environment, and we already had one. I want this environment to be for my production code, so I'll name this production.
+
+Down here, I can set my deployment type. Again, this deployment environment is not for general use, so I don't wanna select general. It's for building my production pipelines, so I'm selecting production.
+
+Down here is where I would select my dbt version. This is inherited from my dev environment. And if I wanted to, I could select only run on a custom branch. I don't want to select this because I want the code on my main branch to run.
+
+Further down, we have our deployment connection section. This is where we specify what data warehouse we're using. And even further down, we have our deployment credentials.
+
+I could enter something in username like mbaird, if that's my username to access Snowflake. In this case, though, I'd recommend using something else, like setting up a service account or a service user that specifically has permissions on your production schema or production database where you actually want to write your code. I'm going to keep this pretty simple and just write everything I have to the analytics schema.
+
+And I already have a production snowflake user called dbt prod. If you want this project to be something you would actually use in production, I would recommend creating those separate users. But if you're just learning dbt right now and you just want to practice, feel free to use whatever your personal credentials are down here.
+
+Okay. Great. I've entered my username and password. And now I can scroll up, and I can hit save.
+
+Now that I have my production environment made, I'll create a new job in my production environment.
+
+I'll go and hit this create job button.
+
+And now I'm given the option to make a deploy job or a continuous integration job. Because I want to run my code on a schedule and not run my code whenever a PR is submitted, I'm selecting deploy job.
+
+I'll give it a self explanatory name like daily job since I want this job to run on a daily schedule. The description here should describe what the job is. So I'll write production job that runs on daily cadence. Under environment, I'll make sure that I'm selecting the production environment that I just made.
+
+And further down here are my execution settings.
+
+This is where you can pass whatever dbt commands you'd like. So we could put something in here like dbt dbt run, dbt test, dbt seed, whatever it might be. In this case, I'm going to keep things simple and leave it as just dbt build, which does a lot of really great things for me. It will run and test all of my models in DAG order. Very helpful. Further down are some other commands you can select, like generate docs on run, which automatically generates documentation for when the job runs. And we also have run source freshness, which enables the dbt source freshness command as the first step of this job.
+
+I'm selecting both of these. Even further down, we can select our triggers. This is how we'll trigger the job. I want this job to run on a schedule, and not just when another job completes.
+
+So I'm going to select run on schedule. I want this job to run every day of the week. So every day of the week down here is already selected, and I want to set my timing to specific hours. Let's say that I want this job to run at nine every day.
+
+So I'll make sure to put nine.
+
+Make sure you're paying attention to your time zones. Great. Now that I've done all that, I can scroll up, and I can hit save. And I've just created a DBT cloud

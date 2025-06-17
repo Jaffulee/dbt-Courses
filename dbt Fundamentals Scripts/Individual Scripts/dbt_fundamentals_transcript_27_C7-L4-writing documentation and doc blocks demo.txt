@@ -1,0 +1,65 @@
+C7-L4-writing documentation and doc blocks demo
+
+Let's dive into writing documentation and Doc Blocks.
+
+So in my project, I have several models here that we've created previously. We have our Staged Jaffle Shop Customers and Staged Jaffle ShopOrders.
+
+I want to document both of these models, so let's go ahead and open up our schema YAML file here, and we've already done some work previously by adding tests to our YAML file.
+
+Here, this is where we're going to add our documentation as well. So again, this is the beauty of having our documentation written in the same place where we are writing our tests alongside our models.
+
+So here, we can add descriptions to our models underneath our model name. So in a YAML file, let's go ahead and create a new line under our model name. We'll add description here. When I'm at this level, the staging level, I think about my target audience and who I'm writing this documentation for.
+
+So here, probably, I'm writing this for other developers.
+
+So as a developer, what is some information that I might want to know about this model?
+
+Maybe the grain of the table would be helpful. So let's go ahead and put one unique customer per row.
+
+So let's similarly add a description to our staged Appleshop orders model, and we'll put one order per row. Not only can we add descriptions at the model level, but we can do so at the column level. So underneath customer ID, we'll add description.
+
+And here, customer ID is my primary key. So So that is important information for my developers to know. So we'll put primary key as our description.
+
+Similarly, under order ID, we'll add description and indicate that this is also the primary key.
+
+I also have my status column here. And so what might I want to know about my Status column? Well, I have all of these different values in my Status column, and so maybe I want to understand what each of these values mean.
+
+Just like we did before, we could add a description line underneath our status column, and I could type out a sentence describing each of my statuses.
+
+However, that's going to be a really long description in my YAML file, and so maybe I want a more organized way to write my documentation.
+
+This is where doc blocks come in. Doc blocks are written in separate markdown files in my project and referenced here in my YAML file.
+
+So in our Jaffle shop folder, let's go ahead and create another file, and we'll call this Jaffle shop docs.
+
+Md. So again, this is going to be a markdown file. So we'll create this.
+
+To start, I need to open up my doc block, and I do so with a curly bracket and a percent and the word docs. We need to give our doc block a name, so I'm going to call this order status.
+
+And then I need my percent sign here to close that out.
+
+Whenever I'm creating a doc block, I need to make sure that I also have my ending of the doc block. So in this case, we'll have percent curly percent again and the word end docs, and we'll close that out with another percent in a curly.
+
+So in between these two sets of curly brackets, we're going to add our documentation.
+
+I already have my documentation written out elsewhere, so I'm going to go ahead and just paste that in here.
+
+Excellent. So now I have a table where all of my statuses have a definition, a description.
+
+And so let's go ahead and save this, and down below I can see a preview of my markdown.
+
+So this is rendered correctly so I know that my syntax here is correct.
+
+Now I need to tell dbt to associate this documentation with my status column here in my yaml file.
+
+So where we have description underneath the status column, we're going to add a connection to that doc block. So here we'll do quotes, double curlies, the word doc, parentheses, and then our doc block name.
+
+Note that the name of our doc block, the name that we put here inside our doc macro, is going to be the name that we've given the doc block at the top. We can have multiple doc blocks per markdown file, so we need a way to indicate which specific doc block we are wanting to connect to our status.
+
+So we're not going to put the name of the file, rather the name of the doc block itself.
+
+So now dbt understands that my status column is going to be associated with the description that I have here in my markdown file.
+
+Let's go ahead and save this, and let's commit and sync our changes. So we added descriptions to stage jaffle shop customers and stage jaffle shop orders.
+
+So we've successfully added descriptions to both of our staging models and our columns.
