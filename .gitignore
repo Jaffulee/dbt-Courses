@@ -1,6 +1,15 @@
+# Ignore scraped content
 *.pdf
 *.json
 *.html
+
+# keep sample files
+!sample.json
+!sample.html
+
+# If samples live in nested folders, allow them through
+!**/sample.json
+!**/sample.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

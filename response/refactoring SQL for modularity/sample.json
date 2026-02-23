@@ -1,0 +1,10 @@
+{
+  "media": {
+    "hashedId": "abc123",
+    "name": "Sample Video: Welcome",
+    "captions": [
+      { "text": "Hello everyone and welcome." },
+      { "text": "In this lesson we will refactor SQL for modularity." }
+    ]
+  }
+}

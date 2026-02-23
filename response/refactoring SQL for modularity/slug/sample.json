@@ -1,0 +1,69 @@
+{
+  "course": {
+    "title": "Refactoring SQL for Modularity (Sample)",
+    "slug": "refactoring-sql-for-modularity-sample",
+    "description": "<p>Learn how to refactor SQL into modular dbt models.</p>"
+  },
+  "sections": [
+    {
+      "id": "sec-1",
+      "title": "Welcome",
+      "lessons": ["les-1"]
+    },
+    {
+      "id": "sec-2",
+      "title": "Closing",
+      "lessons": ["les-2"]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "les-1",
+      "title": "Introduction",
+      "slug": "introduction",
+      "section": "sec-1",
+      "topics": [
+        { "id": "topic-video-1", "type": "video" },
+        { "id": "topic-text-1", "type": "text" }
+      ]
+    },
+    {
+      "id": "les-2",
+      "title": "Wrap up",
+      "slug": "wrap-up",
+      "section": "sec-2",
+      "topics": [{ "id": "topic-pdf-1", "type": "pdfViewer" }]
+    }
+  ],
+  "videos": [
+    {
+      "id": "topic-video-1",
+      "type": "video",
+      "title": "Welcome to the course",
+      "lesson": "les-1",
+      "asset": "abc123",
+      "body": "<p>Watch the video above, then continue.</p>"
+    }
+  ],
+  "texts": [
+    {
+      "id": "topic-text-1",
+      "type": "text",
+      "title": "Prerequisites",
+      "lesson": "les-1",
+      "asset": null,
+      "body": "<h2>Prerequisites</h2><ul><li>Basic SQL</li><li>dbt Fundamentals</li></ul><p>That’s all you need.</p>"
+    }
+  ],
+  "pdfViewers": [
+    {
+      "id": "topic-pdf-1",
+      "type": "pdfViewer",
+      "title": "Refactoring One Pager",
+      "lesson": "les-2",
+      "asset": "https://example.com/refactoring-one-pager.pdf",
+      "body": null
+    }
+  ],
+  "quizzes": []
+}

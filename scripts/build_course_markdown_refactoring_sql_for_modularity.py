@@ -11,7 +11,7 @@ from course_parser.markdown_render import render_full_course_markdown
 
 def main() -> None:
     course_dir = Path(r"response\refactoring SQL for modularity")
-    slug_path = course_dir / "slug" / "refactoring SQL for modularity.json"
+    slug_path = course_dir / "slug" / "sample.json"
 
     # Output base
     out_dir = Path(r"dbt Scripts\refactoring SQL for modularity")
