@@ -18,6 +18,8 @@ This repository contains small, focused Python utilities to:
 
 <p>
 <a href="https://www.getdbt.com/dbt-assets/certifications/dbt-certificate-study-guide">dbt Study Guide resource</a>
+and 
+<a href="https://learn.getdbt.com/learn/learning-path/dbt-certified-developer">dbt Certified Developer path</a>
 </p>
 
 <hr/>
